@@ -22,7 +22,7 @@
 <body>
 	<div class="row">
 		<div class="column"><?php include_once("../calendar.php"); todayEvents(); tomorrowEvents();?></div>
-		<div class="column"><?php include("../wunderlist.php");?></div>
+		<div class="column"><?php include("../wunderlist.php"); include("../bcbControl.php");?></div>
 		<div class="column"><?php include_once("../aws.php"); showAlerts(); showMonitoring();?></div>
 	</div>
 </body>

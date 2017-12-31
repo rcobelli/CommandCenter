@@ -138,12 +138,17 @@ function printEvents($calToday, $calTomorrow) {
 
 	if ($calToday) {
 		$title = "Today's Calendar";
+		$css = "";
 	} else {
 		$title = "Tomorrow's Calendar";
+		$css = 'style="font-size: 30px;""';
 	}
 
-	$html = '<div class="item"><h1>'.$title.'</h1><img src="../serviceIcons/calendar.png" class="icon"><table><tr><th> Event </th><th> Start at </th><th> End at </th></tr>';
-	foreach( $data as $icsEvent){
+	$html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/calendar.png" class="icon"><table><tr><th> Event </th><th> Start at </th><th> End at </th></tr>';
+	if (count($data) == 0) {
+		$html .= '<tr><td colspan=3>Nothing on ' . $title . '</td></tr>';
+	} else {
+		foreach( $data as $icsEvent){
 	        /* Getting start date and time */
 	        $start = isset( $icsEvent ['DTSTART;VALUE=DATE'] ) ? $icsEvent ['DTSTART;VALUE=DATE'] : $icsEvent ['DTSTART'];
 	        /* Converting to datetime and apply the timezone to get proper date time */
@@ -158,6 +163,7 @@ function printEvents($calToday, $calTomorrow) {
 	        /* Getting the name of event */
 	        $eventName = $icsEvent['SUMMARY'];
 	        $html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';
+		}
 	}
 	echo $html.'</table></div>';
 }

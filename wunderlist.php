@@ -78,8 +78,13 @@ foreach ($lists as $list) {
 	}
 }
 
-$html = '<div class="item"><h1>Wunderlist</h1><img src="../serviceIcons/wunderlist.png" class="icon"><table><tr><th>List</th><th>Task</th></tr>';
-foreach( $dueToday as $tasks){
+
+$html = '<div class="item"><h1>Wunderlist</h1><img src="../serviceIcons/wunderlist.png" class="icon"><table><tr><th style="width:25%">List</th><th>Task</th></tr>';
+if (count($dueToday) == 0) {
+	$html .= '<tr><td colspan=2>Nothing Due Today</td></tr>';
+} else {
+	foreach( $dueToday as $tasks){
 		$html .= '<tr><td>'.$tasks['listTitle'].'</td><td>'.$tasks['title'].'</td></tr>';
+	}
 }
 echo $html.'</table></div>';
