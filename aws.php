@@ -56,7 +56,7 @@ function showMonitoring() {
 			echo '</td></tr>';
 		}
 	}
-	echo '</table>';
+	echo '</table></div>';
 }
 
 function showAlerts() {
@@ -96,9 +96,13 @@ function showAlerts() {
 			$html = "";
 		}
 	}
-	$globalHtml .= '</table>';
+	$globalHtml .= '</table></div>';
 
 	if ($globalIssue) {
 		echo $globalHtml;
+	} else {
+		echo '<div class="item"><h1>Server Alerts</h1><img src="../serviceIcons/monit.png" class="icon"><table>';
+		echo '<tr><td colspan=3 style="text-align: center"><span style="color: green">None</span></td></tr>';
+		echo '</table></div>';
 	}
 }

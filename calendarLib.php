@@ -154,12 +154,20 @@ function printEvents($calToday, $calTomorrow) {
 	        /* Converting to datetime and apply the timezone to get proper date time */
 	        $startDt = new DateTime ( $start );
 	        $startDt->setTimeZone ( new DateTimezone ('America/New_York') );
-	        $startDate = $startDt->format ( 'm/d/Y h:i a' );
+			if ($calToday) {
+				$startDate = $startDt->format ( 'h:i a' );
+			} else {
+				$startDate = $startDt->format ( 'm/d/Y h:i a' );
+			}
 	        /* Getting end date with time */
 	        $end = isset( $icsEvent ['DTEND;VALUE=DATE'] ) ? $icsEvent ['DTEND;VALUE=DATE'] : $icsEvent ['DTEND'];
 	        $endDt = new DateTime ( $end );
 			$endDt->setTimeZone ( new DateTimezone ('America/New_York') );
-	        $endDate = $endDt->format ( 'm/d/Y h:i a' );
+			if ($calToday) {
+				$endDate = $endDt->format ( 'h:i a' );
+			} else {
+				$endDate = $endDt->format ( 'm/d/Y h:i a' );
+			}
 	        /* Getting the name of event */
 	        $eventName = $icsEvent['SUMMARY'];
 	        $html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';

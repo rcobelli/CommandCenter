@@ -21,6 +21,9 @@
 	</style>
 </head>
 <body>
-	<?php include_once("../calendar.php"); todayEvents(); include_once("../aws.php"); showAlerts(); include("../wunderlist.php");?>
+	<div class="row">
+		<div class="column"><?php include_once("../calendar.php"); todayEvents(); include("../wunderlist.php"); ?></div>
+		<div class="column"><?php include("../weather.php"); include_once("../aws.php"); showAlerts(); showMonitoring();?></div>
+	</div>
 </body>
 </html>
