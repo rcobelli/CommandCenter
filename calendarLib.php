@@ -144,7 +144,7 @@ function printEvents($calToday, $calTomorrow) {
 		$css = 'style="font-size: 30px;""';
 	}
 
-	$html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/calendar.png" class="icon"><table><tr><th> Event </th><th> Start at </th><th> End at </th></tr>';
+	$html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/calendar.png" class="icon"><table><tr><th style="width: 60%"> Event </th><th style="width: 20%"> Start at </th><th style="width: 20%"> End at </th></tr>';
 	if (count($data) == 0) {
 		$html .= '<tr><td colspan=3>Nothing on ' . $title . '</td></tr>';
 	} else {
@@ -157,7 +157,7 @@ function printEvents($calToday, $calTomorrow) {
 			if ($calToday) {
 				$startDate = $startDt->format ( 'h:i a' );
 			} else {
-				$startDate = $startDt->format ( 'm/d/Y h:i a' );
+				$startDate = $startDt->format ( 'h:i a' );
 			}
 	        /* Getting end date with time */
 	        $end = isset( $icsEvent ['DTEND;VALUE=DATE'] ) ? $icsEvent ['DTEND;VALUE=DATE'] : $icsEvent ['DTEND'];
@@ -166,7 +166,7 @@ function printEvents($calToday, $calTomorrow) {
 			if ($calToday) {
 				$endDate = $endDt->format ( 'h:i a' );
 			} else {
-				$endDate = $endDt->format ( 'm/d/Y h:i a' );
+				$endDate = $endDt->format ( 'h:i a' );
 			}
 	        /* Getting the name of event */
 	        $eventName = $icsEvent['SUMMARY'];

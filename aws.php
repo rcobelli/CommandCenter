@@ -1,7 +1,7 @@
 <?php
 
 
-$urls = ["http://www.trac-time.com", "http://baker.rybel-llc.com", "http://big-shanty.rybel-llc.com", "http://legacy-park.rybel-llc.com", "http://mane-link.com", "http://rybel-llc.com"];
+$urls = ["http://www.trac-time.com", "http://baker.rybel-llc.com", "http://big-shanty.rybel-llc.com", "http://legacy-park.rybel-llc.com", "http://rybel-llc.com", "http://kt.rybel-llc.com"];
 $data = array();
 
 foreach ($urls as $url) {
@@ -43,7 +43,7 @@ function showMonitoring() {
 		foreach($server['services'] as $service){
 			echo '<tr><td>'.$service['name'].'</td><td>';
 			if ($service['monitoringStatus'] == "1") {
-				echo "<span style='color: green'>Running</span>";
+				echo "<span style='color: green'>No Issues</span>";
 			} else {
 				echo "<span style='color: red'>Not Monitoring</span>";
 			}
@@ -72,7 +72,7 @@ function showAlerts() {
 		foreach($server['services'] as $service){
 			$temp = '<tr><td>'.$service['name'].'</td><td>';
 			if ($service['monitoringStatus'] == "1") {
-				$temp .= "<span style='color: green'>Running</span>";
+				$temp .= "<span style='color: green'>No Issues</span>";
 			} else {
 				$temp .= "<span style='color: red'>Not Monitoring</span>";
 			}
