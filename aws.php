@@ -1,6 +1,5 @@
 <?php
 
-
 $urls = ["http://www.trac-time.com", "http://big-shanty.rybel-llc.com", "http://legacy-park.rybel-llc.com", "http://rybel-llc.com", "http://ballotline.com", "http://eaton-chiro.rybel-llc.com"];
 $data = array();
 
@@ -122,5 +121,35 @@ function showAlerts()
         echo '<div class="item"><h1>Server Alerts</h1><img src="../serviceIcons/monit.png" class="icon"><table>';
         echo '<tr><td colspan=3 style="text-align: center"><span style="color: green">None</span></td></tr>';
         echo '</table></div>';
+    }
+}
+
+function checkForAlerts()
+{
+    global $data;
+
+    $globalIssue = array();
+
+    foreach ($data as $server) {
+        $issue = false;
+        foreach ($server['services'] as $service) {
+            if ($service['monitoringStatus'] != "1") {
+                $issue = true;
+            }
+
+            if ($service['serviceStatus'] != "0") {
+                $issue = true;
+            }
+
+            if ($issue) {
+                array_push($globalIssue, $service);
+            }
+        }
+    }
+
+    if (!empty($globalIssue)) {
+        return json_encode($globalIssue);
+    } else {
+        return null;
     }
 }

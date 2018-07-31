@@ -1,4 +1,7 @@
 <?php
+
+// TODO Base this off of when earliest class is
+
 switch (date('N')) {
     case 1:
         $workout = "Rest";
