@@ -2,7 +2,8 @@
 
 const DEBUG = false;
 
-function doCall($endPoint, $parameters = array(), $method = 'GET') {
+function doCall($endPoint, $parameters = array(), $method = 'GET')
+{
     // check if curl is available
     if (!function_exists('curl_init')) {
         throw new WunderlistException('This method requires cURL (http://php.net/curl), it seems like the extension isn\'t installed.');
@@ -18,8 +19,8 @@ function doCall($endPoint, $parameters = array(), $method = 'GET') {
     // init headers
     $headers = array();
     $headers[] = 'X-Client-ID: 1025cfb87d1091f7ac43';
-	$headers[] = 'X-Access-Token: 57c172d75731cd508e3059f0c28eb68f6e58d6058e73549910c48dcb305a';
-	$headers[] = 'Content-Type: application/json';
+    $headers[] = 'X-Access-Token: 57c172d75731cd508e3059f0c28eb68f6e58d6058e73549910c48dcb305a';
+    $headers[] = 'Content-Type: application/json';
     // define headers with the request
     if (!empty($headers)) {
         // add headers
@@ -27,7 +28,7 @@ function doCall($endPoint, $parameters = array(), $method = 'GET') {
     }
     // parameters are set
     if (!empty($parameters)) {
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($parameters) );
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($parameters));
     }
     // method is POST, used for login or inserts
     if ($method == 'POST') {
@@ -42,7 +43,7 @@ function doCall($endPoint, $parameters = array(), $method = 'GET') {
     // debug is on
     if (DEBUG) {
         echo $url . '<br/>';
-		echo var_dump($curl) . '<br/>';
+        echo var_dump($curl) . '<br/>';
         print_r($response);
         echo '<br/><br/>';
     }
@@ -69,22 +70,22 @@ $lists = doCall('lists');
 $dueToday = array();
 
 foreach ($lists as $list) {
-	$tasks = doCall('tasks?list_id=' . $list['id'], null, "GET");
-	foreach ($tasks as $task) {
-		if (!is_null($task['due_date']) && date('U', strtotime($task['due_date'])) <= date("U")) {
-			$task['listTitle'] = $list['title'];
-			array_push($dueToday, $task);
-		}
-	}
+    $tasks = doCall('tasks?list_id=' . $list['id'], null, "GET");
+    foreach ($tasks as $task) {
+        if (!is_null($task['due_date']) && date('U', strtotime($task['due_date'])) <= date("U")) {
+            $task['listTitle'] = $list['title'];
+            array_push($dueToday, $task);
+        }
+    }
 }
 
 
 $html = '<div class="item"><h1>Wunderlist</h1><img src="../serviceIcons/wunderlist.png" class="icon"><table><tr><th style="width:25%">List</th><th>Task</th></tr>';
 if (count($dueToday) == 0) {
-	$html .= '<tr><td colspan=2>Nothing Due Today</td></tr>';
+    $html .= '<tr><td colspan=2>Nothing Due Today</td></tr>';
 } else {
-	foreach( $dueToday as $tasks){
-		$html .= '<tr><td>'.$tasks['listTitle'].'</td><td>'.$tasks['title'].'</td></tr>';
-	}
+    foreach ($dueToday as $tasks) {
+        $html .= '<tr><td>'.$tasks['listTitle'].'</td><td>'.$tasks['title'].'</td></tr>';
+    }
 }
 echo $html.'</table></div>';

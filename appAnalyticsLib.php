@@ -21,27 +21,29 @@ class iTunesConnect
         'installs',
         'sessions'
     ];
-	/*
-	,
-	'activeDevices',
-	'units',
-	'rollingActiveDevices',
-	'impressionsTotalUnique'
-	*/
+    /*
+    ,
+    'activeDevices',
+    'units',
+    'rollingActiveDevices',
+    'impressionsTotalUnique'
+    */
     const dateFormat = 'Y-m-d\TH:i:s\Z';
- // Your app unique ID from iTunes Connect
+    // Your app unique ID from iTunes Connect
     private $cookies = [
         'dslang' => 'EN-EN',
         'site'  => 'ENG',
     ];
     public $authSuccess = false;
-    public function __construct($userId, $password) {
+    public function __construct($userId, $password)
+    {
         $this->auth($userId, $password);
         if ($this->authSuccess) {
             $this->getSession();
         }
     }
-    private function auth($userId, $password) {
+    private function auth($userId, $password)
+    {
         $request = [
             'accountName' => $userId,
             'password' => $password,
@@ -51,11 +53,12 @@ class iTunesConnect
             'Referer' => self::authUrl.'?widgetKey='.self::widgetKey.'&widgetDomain='.self::siteUrl.':443&font=sf',
             'X-Apple-Widget-Key' => self::widgetKey,
             'X-Requested-With' => 'XMLHttpRequest',
-			'X-Requested-By' => 'analytics.itunes.apple.com'
+            'X-Requested-By' => 'analytics.itunes.apple.com'
         ];
         return $this->curlRequest(self::authUrl, 'post', $request, $headers, true);
     }
-    private function curlRequest($url, $method = 'get', $postData = [], $headers = [], $auth = false) {
+    private function curlRequest($url, $method = 'get', $postData = [], $headers = [], $auth = false)
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         if ($method === 'post') {
@@ -82,7 +85,8 @@ class iTunesConnect
 
         return $response;
     }
-    public function processHeaders($curl, $header) {
+    public function processHeaders($curl, $header)
+    {
         $search = 'set-cookie:';
         $position = stripos($header, $search);
         if ($position === false) {
@@ -100,7 +104,8 @@ class iTunesConnect
         }
         return strlen($header);
     }
-    public function getSession() {
+    public function getSession()
+    {
         $url = parse_url(self::siteUrl);
         $headers = [
             'Origin' => $url['scheme'].'://'.$url['host'],
@@ -110,9 +115,9 @@ class iTunesConnect
 
         $url = self::sessionUrl;
         return $this->curlRequest($url, 'get', [], $headers, true);
-
     }
-    public function getStats(\DateTime $startTime, \DateTime $endTime, $appID, array $measures = [], $frequency = 'WEEK', array $filters = []) {
+    public function getStats(\DateTime $startTime, \DateTime $endTime, $appID, array $measures = [], $frequency = 'WEEK', array $filters = [])
+    {
         $url = parse_url(self::apiUrl);
         $headers = [
             'Cookie' => self::getCookiesString($this->cookies),
@@ -138,7 +143,8 @@ class iTunesConnect
         return self::formatResponse($response);
     }
 
-    private static function getHeaders($url, $headers){
+    private static function getHeaders($url, $headers)
+    {
         $url = parse_url($url);
         $default = [
             'Accept' => 'application/json, text/plain, */*',
