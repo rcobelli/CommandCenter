@@ -170,7 +170,13 @@ function printEvents($calToday, $calTomorrow) {
 			}
 	        /* Getting the name of event */
 	        $eventName = $icsEvent['SUMMARY'];
-	        $html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';
+
+			if ($startDate == "12:00 am" && $endDate == "12:00 am") {
+				$html .= '<tr><td>'.$eventName.'</td><td colspan="2">All Day</td></tr>';
+			} else {
+				$html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';
+			}
+
 		}
 	}
 	echo $html.'</table></div>';

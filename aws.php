@@ -1,7 +1,7 @@
 <?php
 
 
-$urls = ["http://www.trac-time.com", "http://baker.rybel-llc.com", "http://big-shanty.rybel-llc.com", "http://legacy-park.rybel-llc.com", "http://rybel-llc.com", "http://kt.rybel-llc.com"];
+$urls = ["http://www.trac-time.com", "http://baker.rybel-llc.com", "http://big-shanty.rybel-llc.com", "http://legacy-park.rybel-llc.com", "http://rybel-llc.com", "http://ballotline.com", "http://eaton-chiro.rybel-llc.com"];
 $data = array();
 
 foreach ($urls as $url) {
@@ -10,28 +10,44 @@ foreach ($urls as $url) {
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_USERPWD, "admin:j5edrv2e7xz5");
 	curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 	$output = curl_exec($ch);
 	$info = curl_getinfo($ch);
-	curl_close($ch);
 
-	$xml = simplexml_load_string($output);
-	$json = json_encode($xml);
-	$raw = json_decode($json, true);
-	$temp = array();
+	if (curl_error($ch)) {
+		$temp['url'] = $url;
+		$temp['ip'] = $url;
+		$temp['services'] = array();
 
-	$temp['url'] = $url;
-	$temp['ip'] = $raw["server"]['httpd']['address'];
-	$temp['services'] = array();
-
-	foreach ($raw['service'] as $service) {
 		$tmp = array();
-		$tmp['name'] = $service['name'];
-		$tmp['serviceStatus'] = $service['status'];
-		$tmp['monitoringStatus'] = $service['monitor'];
+		$tmp['name'] = "System";
+		$tmp['serviceStatus'] = "Offline";
+		$tmp['monitoringStatus'] = "0";
 
 		array_push($temp['services'], $tmp);
+
+
+		array_push($data, $temp);
+	} else {
+		$xml = simplexml_load_string($output);
+		$json = json_encode($xml);
+		$raw = json_decode($json, true);
+		$temp = array();
+
+		$temp['url'] = $url;
+		$temp['ip'] = $raw["server"]['httpd']['address'];
+		$temp['services'] = array();
+
+		foreach ($raw['service'] as $service) {
+			$tmp = array();
+			$tmp['name'] = $service['name'];
+			$tmp['serviceStatus'] = $service['status'];
+			$tmp['monitoringStatus'] = $service['monitor'];
+
+			array_push($temp['services'], $tmp);
+		}
+		array_push($data, $temp);
 	}
-	array_push($data, $temp);
 }
 
 function showMonitoring() {

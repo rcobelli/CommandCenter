@@ -7,6 +7,11 @@ $file = "https://calendar.google.com/calendar/ical/ryan.cobelli%40gmail.com/priv
 $obj = new ics();
 $icsEvents = $obj->getIcsEventsAsArray( $file );
 
+$file = "https://calendar.google.com/calendar/ical/rybelllc%40gmail.com/private-6f9c832b54927adecc010e430df6f032/basic.ics";
+$icsEvents2 = $obj->getIcsEventsAsArray( $file );
+
+$icsEvents = array_merge($icsEvents, $icsEvents2);
+
 function todayEvents() {
 	printEvents(true, false);
 }
