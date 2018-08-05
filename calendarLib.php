@@ -176,7 +176,7 @@ function printEvents($calToday, $calTomorrow)
             $eventName = $icsEvent['SUMMARY'];
 
             if ($startDate == "12:00 am" && $endDate == "12:00 am") {
-                $html .= '<tr><td>'.$eventName.'</td><td colspan="2">All Day</td></tr>';
+                $html .= '<tr><td>'.$eventName.'</td><td colspan="2" style="text-align: center;">All Day</td></tr>';
             } else {
                 $html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';
             }

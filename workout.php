@@ -1,27 +1,25 @@
 <?php
 
-// TODO Base this off of when earliest class is
-
 switch (date('N')) {
-    case 1:
+    case 1: // Monday
         $workout = "Rest";
         break;
-    case 2:
+    case 2: // Tuesday
         $workout = "Long Run";
         break;
-    case 3:
-        $workout = "Recovery Run";
-        break;
-    case 4:
-        $workout = "Speed Day";
-        break;
-    case 5:
+    case 3: // Wednesday
         $workout = "Rest";
         break;
-    case 6:
+    case 4: // Thursday
+        $workout = "Speed Day";
+        break;
+    case 5: // Friday
+        $workout = "Rest";
+        break;
+    case 6: // Saturday
         $workout = "Match Day";
         break;
-    default:
+    default: // Sunday
         $workout = "Match Day";
         break;
 }

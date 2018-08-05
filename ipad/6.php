@@ -18,8 +18,8 @@
 </head>
 <body>
 	<div class="row">
-		<div class="column"><?php include_once("../calendar.php"); todayEvents(); include("../evernote.php"); ?></div>
-		<div class="column"><?php include("../weather.php"); include_once("../aws.php"); showAlerts();?></div>
+		<div class="column"><?php include("../evernote.php"); include("../trello.php"); ?></div>
+		<div class="column"><?php include("../weather.php"); include_once("../calendar.php"); todayEvents(); include_once("../aws.php"); showAlerts();?></div>
 	</div>
 	<div id="footer">
 		<?php echo date("m/d/Y g:i:s"); ?> 6.php

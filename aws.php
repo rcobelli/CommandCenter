@@ -142,7 +142,7 @@ function checkForAlerts()
             }
 
             if ($issue) {
-                array_push($globalIssue, $service);
+                $globalIssue[$server['url']] = $service;
             }
         }
     }

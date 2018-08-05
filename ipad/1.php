@@ -18,7 +18,7 @@
 </head>
 <body>
 	<div class="row">
-		<div class="column"><?php include("../evernote.php"); ?></div>
+		<div class="column"><?php include("../evernote.php"); include_once("../trello.php"); ?></div>
 		<div class="column"><?php include_once("../calendar.php"); todayEvents(); ?></div>
 	</div>
 	<div id="footer">

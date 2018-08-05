@@ -1,5 +1,19 @@
 <?php
 
+// // Fetch the raw POST body containing the message
+// $postBody = file_get_contents('php://input');
+//
+// // JSON decode the body to an array of message data
+// $message = json_decode($postBody, true);
+// if ($message) {
+//     // Do something with the data
+//     echo $message['Message'];
+// }
+//
+// file_put_contents("output.txt", $postBody);
+//
+// die();
+
 function push($user, $title, $message)
 {
     // Put your device token here (without spaces):
