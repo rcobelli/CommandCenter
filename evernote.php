@@ -92,7 +92,7 @@ function showReminders()
 
     $html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/evernote.png" class="icon"><table><tr><th> Note </th></tr>';
     if (count($data) == 0) {
-        $html .= '<tr><td colspan=3>Nothing for today</td></tr>';
+        echo "<script>console.log('Nothing from Evernote');</script>";
     } else {
         foreach ($data as $icsEvent) {
             /* Getting start date and time */
@@ -118,8 +118,8 @@ function showReminders()
             $eventName = $icsEvent['SUMMARY'];
             $html .= '<tr><td>'.$eventName.'</td></tr>';
         }
+        echo $html.'</table></div>';
     }
-    echo $html.'</table></div>';
 }
 
 

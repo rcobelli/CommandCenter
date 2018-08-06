@@ -118,9 +118,7 @@ function showAlerts()
     if ($globalIssue) {
         echo $globalHtml;
     } else {
-        echo '<div class="item"><h1>Server Alerts</h1><img src="../serviceIcons/monit.png" class="icon"><table>';
-        echo '<tr><td colspan=3 style="text-align: center"><span style="color: green">None</span></td></tr>';
-        echo '</table></div>';
+        echo "<script>console.log('No Server Alerts');</script>";
     }
 }
 

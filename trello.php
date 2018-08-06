@@ -21,12 +21,12 @@ $title = "Trello";
 
 $html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/trello.png" class="icon"><table><tr><th> Card </th></tr>';
 if (empty($json)) {
-    $html .= '<tr><td colspan=3>Nothing left</td></tr>';
+    echo "<script>console.log('Nothing from Trello');</script>";
 } else {
     foreach ($json['cards'] as $card) {
         if ($card['idList'] == "5b65f71ad026d736fdeb1f6c") {
             $html .= '<tr><td>' . $card['labels'][0]['name'] . ": " . $card['name'] . '</td></tr>';
         }
     }
+    echo $html.'</table></div>';
 }
-echo $html.'</table></div>';

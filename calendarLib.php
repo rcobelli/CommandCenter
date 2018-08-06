@@ -150,7 +150,7 @@ function printEvents($calToday, $calTomorrow)
 
     $html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/calendar.png" class="icon"><table><tr><th style="width: 60%"> Event </th><th style="width: 20%"> Start at </th><th style="width: 20%"> End at </th></tr>';
     if (count($data) == 0) {
-        $html .= '<tr><td colspan=3>Nothing on ' . $title . '</td></tr>';
+        echo "<script>console.log('Nothing on Today's Calendar');</script>";
     } else {
         foreach ($data as $icsEvent) {
             /* Getting start date and time */
@@ -181,6 +181,6 @@ function printEvents($calToday, $calTomorrow)
                 $html .= '<tr><td>'.$eventName.'</td><td>'.$startDate.'</td><td>'.$endDate.'</td></tr>';
             }
         }
+        echo $html.'</table></div>';
     }
-    echo $html.'</table></div>';
 }
