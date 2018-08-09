@@ -15,18 +15,34 @@ curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en
 $output = curl_exec($ch);
 $json = json_decode($output, true);
 
-
-
-$title = "Trello";
-
-$html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/trello.png" class="icon"><table><tr><th> Card </th></tr>';
-if (empty($json)) {
-    echo "<script>console.log('Nothing from Trello');</script>";
-} else {
-    foreach ($json['cards'] as $card) {
-        if ($card['idList'] == "5b65f71ad026d736fdeb1f6c" && $card['closed'] == 'false') {
-            $html .= '<tr><td>' . $card['labels'][0]['name'] . ": " . $card['name'] . '</td></tr>';
+function showBlocked()
+{
+    $html = '<table><tr><th> Card </th></tr>';
+    if (empty($json)) {
+        return null;
+    } else {
+        foreach ($json['cards'] as $card) {
+            if ($card['idList'] == "5b65d956d6c88c4c5a928bce" && $card['closed'] == false) {
+                $html .= '<tr><td>' . $card['labels'][0]['name'] . ": " . $card['name'] . '</td></tr>';
+            }
         }
+        return $html.'</table></div>';
     }
-    echo $html.'</table></div>';
+}
+
+function showCurrent()
+{
+    $title = "Trello";
+
+    $html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/trello.png" class="icon"><table><tr><th> Card </th></tr>';
+    if (empty($json)) {
+        echo "<script>console.log('Nothing from Trello');</script>";
+    } else {
+        foreach ($json['cards'] as $card) {
+            if ($card['idList'] == "5b65f71ad026d736fdeb1f6c" && $card['closed'] == false) {
+                $html .= '<tr><td>' . $card['labels'][0]['name'] . ": " . $card['name'] . '</td></tr>';
+            }
+        }
+        echo $html.'</table></div>';
+    }
 }
