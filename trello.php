@@ -17,6 +17,8 @@ $json = json_decode($output, true);
 
 function showBlocked()
 {
+    global $json;
+
     $html = '<table><tr><th> Card </th></tr>';
     if (empty($json)) {
         return null;
@@ -32,7 +34,10 @@ function showBlocked()
 
 function showCurrent()
 {
+    global $json;
+
     $title = "Trello";
+    $validCard = false;
 
     $html = '<div class="item"><h1 ' . $css . '>'.$title.'</h1><img src="../serviceIcons/trello.png" class="icon"><table><tr><th> Card </th></tr>';
     if (empty($json)) {
@@ -40,9 +45,18 @@ function showCurrent()
     } else {
         foreach ($json['cards'] as $card) {
             if ($card['idList'] == "5b65f71ad026d736fdeb1f6c" && $card['closed'] == false) {
-                $html .= '<tr><td>' . $card['labels'][0]['name'] . ": " . $card['name'] . '</td></tr>';
+                $validCard = true;
+                $html .= '<tr><td>';
+                if (!empty($card['labels'][0]['name'])) {
+                    $html .= $card['labels'][0]['name'] . ": ";
+                }
+                $html .= $card['name'] . '</td></tr>';
             }
         }
-        echo $html.'</table></div>';
+        if ($validCard) {
+            echo $html.'</table></div>';
+        } else {
+            echo "<script>console.log('Nothing from Trello');</script>";
+        }
     }
 }
