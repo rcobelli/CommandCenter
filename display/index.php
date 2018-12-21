@@ -18,7 +18,7 @@ $id = steralizeString($_GET['user']);
     .red-dot {
         height: 20px;
         width: 20px;
-        background-color: #C73629;
+        background-color: #E0322E;
         border-radius: 50%;
         display: inline-block;
         float: left;
@@ -27,6 +27,14 @@ $id = steralizeString($_GET['user']);
         height: 20px;
         width: 20px;
         background-color: #34c749;
+        border-radius: 50%;
+        display: inline-block;
+        float: left;
+    }
+    .yellow-dot {
+        height: 20px;
+        width: 20px;
+        background-color: #D0D11D;
         border-radius: 50%;
         display: inline-block;
         float: left;
@@ -61,22 +69,19 @@ $id = steralizeString($_GET['user']);
                 $result2 = $conn->query($sql);
                 if ($result2->num_rows > 0) {
                     while ($row2 = $result2->fetch_assoc()) {
-                        $row['url'] = preg_replace('#^https?://#', '', rtrim($row['url'], '/'));
-                        $row['url'] = strlen($row['url']) > 20 ? substr($row['url'], 0, 20)."..." : $row['url'];
-
-
-                        $html = $row['url'] . " <strong>-</strong> " . (strlen($row2['name']) > 10 ? substr($row2['name'], 0, 10)."..." : $row2['name']);
+                        $html = (strlen($row['name']) > 25 ? substr($row['name'], 0, 25)."..." : $row['name']);
+                        $html .= " : " . (strlen($row2['name']) > 15 ? substr($row2['name'], 0, 15)."..." : $row2['name']);
                         $sql = "SELECT * FROM `metric-log` WHERE systemID = " . $row['id'] . " AND metricID = '" . $row2['name'] . "' ORDER BY timestamp DESC LIMIT 1";
                         $result3 = $conn->query($sql);
                         if ($result3->num_rows > 0) {
                             $row3 = $result3->fetch_assoc();
                             if ($row3['status'] == 1) {
-                                $html .= '<span class="green-dot"></span>';
+                                $html .= '<span class="green-dot" title="Good"></span>';
                             } else {
-                                $html .= '<span class="red-dot"></span>'; // Bad
+                                $html .= '<span class="red-dot" title="Failed"></span>';
                             }
                         } else {
-                            $html .= '<span class="red-dot"></span>'; // Insufficient data
+                            $html .= '<span class="yellow-dot" title="Insufficient data"></span>';
                         }
                         array_push($items, $html);
                     }
@@ -92,15 +97,19 @@ $id = steralizeString($_GET['user']);
                 $sql = "SELECT * FROM `cron-log` WHERE cronID = " . $row['id'] . " ORDER BY timestamp DESC LIMIT 2";
                 $result3 = $conn->query($sql);
                 if ($result3->num_rows != 2) {
-                    $html .= '<span class="red-dot"></span>'; // Insufficient data
+                    if ($result3->num_rows == 0) {
+                        $html .= '<span class="red-dot" title="No data"></span>';
+                    } else {
+                        $html .= '<span class="yellow-dot" title="Insufficient data"></span>';
+                    }
                 } else {
                     $recent = $result3->fetch_assoc();
                     $older = $result3->fetch_assoc();
                     $diff = (strtotime($recent['timestamp']) - strtotime($older['timestamp'])) / 60 / 60;
                     if ($diff <= $row['frequency']) {
-                        $html .= '<span class="green-dot"></span>';
+                        $html .= '<span class="green-dot" title="Good"></span>';
                     } else {
-                        $html .= '<span class="red-dot"></span>'; // Bad
+                        $html .= '<span class="red-dot" title="Failed"></span>';
                     }
                 }
                 array_push($items, $html);

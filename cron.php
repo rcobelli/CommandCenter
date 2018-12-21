@@ -12,7 +12,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $frequency = steralizeString($_POST['frequency']);
 
     if (empty($name) || empty($frequency)) {
-        echo "All fields required";
+        ?>
+        <div class="alert alert-danger" role="alert">
+            All Fields Are Required
+        </div>
+        <?php
     } else {
         $sql = "INSERT INTO `cron` (name, frequency, userID) VALUES ('$name', $frequency, " . $_SESSION['id'] . ")";
         if ($conn->query($sql) === false) {
@@ -111,7 +115,10 @@ if (empty($_GET['id'])) {
                 }
                 echo '</table>';
             } else {
-                echo '<h5>No Data</h5>';
+                echo '<i>No Data</i>';
             }
         }
         ?>
+    </div>
+</body>
+</html>

@@ -8,16 +8,25 @@ if (empty($_SESSION['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = steralizeString($_POST['name']);
     $url = steralizeString($_POST['url']);
     $username = steralizeString($_POST['username']);
     $password = steralizeString($_POST['password']);
 
-    if (empty($url) || empty($username) || empty($password)) {
-        echo "All fields required";
+    if (empty($url) || empty($username) || empty($password) || empty($name)) {
+        ?>
+        <div class="alert alert-danger" role="alert">
+            All Fields Are Required
+        </div>
+        <?php
     } else {
-        $sql = "INSERT INTO `systems` (url, username, password, userID) VALUES ('$url', '$username', '$password', " . $_SESSION['id'] . ")";
+        $sql = "INSERT INTO `systems` (name, url, username, password, userID) VALUES ('$name', '$url', '$username', '$password', " . $_SESSION['id'] . ")";
         if ($conn->query($sql) === false) {
-            echo $conn->error;
+            ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $conn->error; ?>
+            </div>
+            <?php
         } else {
             $id = $conn->insert_id;
 
@@ -31,8 +40,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $info = curl_getinfo($ch);
 
             if (curl_error($ch)) {
-                header("Location: dashboard.php?action=error&type=metric&reason=system_unreachable");
-                die();
+                $sql = "DELETE FROM `systems` WHERE id = $id";
+                $conn->query($sql); ?>
+                <div class="alert alert-danger" role="alert">
+                    System is unreachable
+                </div>
+                <?php
             } else {
                 $xml = simplexml_load_string($output);
                 $json = json_encode($xml);
@@ -113,6 +126,9 @@ if (empty($_GET['id'])) {
 
         <form method="post">
             <div class="form-group">
+                <label>Name: </label><input type="text" name="name" required value="<?php echo $row['name']; ?>" class="form-control" placeholder="Website">
+            </div>
+            <div class="form-group">
                 <label>URL: </label><input type="text" name="url" required value="<?php echo $row['url']; ?>" class="form-control" placeholder="http://google.com">
             </div>
             <div class="form-group">
@@ -126,7 +142,7 @@ if (empty($_GET['id'])) {
 
         <?php
         if ($mode == MODE_EDIT) {
-            echo '<h3>Metrics</h3>';
+            echo '<hr/><h3>Metrics</h3>';
             $sql = "SELECT * FROM `metrics` WHERE systemID = $id";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
@@ -136,7 +152,7 @@ if (empty($_GET['id'])) {
                 }
                 echo '</ul>';
             } else {
-                echo '<h5>No Metrics Found</h5>';
+                echo '<i>No Metrics Found</i>';
             }
         }
         ?>

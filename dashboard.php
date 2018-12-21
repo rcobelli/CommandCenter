@@ -46,10 +46,10 @@ if (empty($_SESSION['id'])) {
                 ?>
                 <div class="jumbotron">
                     <h1 class="display-4">Integration Instructions</h1>
-                    <p class="lead">In <code>crontab</code>, add <code> && curl https://cc.rybel-llc.com/cron?id=<?php echo $_GET['code']; ?></code></p>
+                    <p class="lead">In <code>crontab</code>, add <code> && curl https://cc.rybel-llc.com/cron/?id=<?php echo $_GET['code']; ?></code></p>
                     <hr class="my-4">
                     <p>Before: <code>0 1 * * * /path/to/myscript.sh</code></p>
-                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://cc.rybel-llc.com/cron?id=<?php echo $_GET['code']; ?></code></p>
+                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://cc.rybel-llc.com/cron/?id=<?php echo $_GET['code']; ?></code></p>
                 </div>
                 <?php
             } else {
@@ -73,12 +73,6 @@ if (empty($_SESSION['id'])) {
                     ?>
                     <div class="alert alert-warning" role="alert">
                         Invalid metric ID
-                    </div>
-                    <?php
-                } elseif ($_GET['reason'] == 'system_unreachable') {
-                    ?>
-                    <div class="alert alert-danger" role="alert">
-                        System is unreachable
                     </div>
                     <?php
                 }
@@ -131,13 +125,13 @@ if (empty($_SESSION['id'])) {
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <th>System URL</th>
+                                <th>System Name</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             while ($row = $result->fetch_assoc()) {
-                                echo '<tr class="clickable-row" data-href="metric.php?id=' . $row['id'] . '"><td>' . $row['url'] . "</td><td class='text-center'>" . $row['frequency'] . "</td></tr>";
+                                echo '<tr class="clickable-row" data-href="metric.php?id=' . $row['id'] . '"><td>' . $row['name'] . " <small class='text-muted float-right'>" . $row['url'] . "</small></td></tr>";
                             } ?>
                         </tbody>
                     </table>
