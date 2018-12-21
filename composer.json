@@ -1,0 +1,13 @@
+{
+    "name": "ryan/cc_backend",
+    "authors": [
+        {
+            "name": "Ryan Cobelli",
+            "email": "ryan.cobelli@rybel-llc.com"
+        }
+    ],
+    "require": {
+        "google/apiclient": "^2.2",
+        "aws/aws-sdk-php": "^3.82"
+    }
+}
