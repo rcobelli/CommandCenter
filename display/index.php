@@ -18,6 +18,7 @@ $id = steralizeString($_GET['user']);
     .red-dot {
         height: 20px;
         width: 20px;
+        margin-right: 10px;
         background-color: #E0322E;
         border-radius: 50%;
         display: inline-block;
@@ -26,6 +27,7 @@ $id = steralizeString($_GET['user']);
     .green-dot {
         height: 20px;
         width: 20px;
+        margin-right: 10px;
         background-color: #34c749;
         border-radius: 50%;
         display: inline-block;
@@ -34,18 +36,25 @@ $id = steralizeString($_GET['user']);
     .yellow-dot {
         height: 20px;
         width: 20px;
+        margin-right: 10px;
         background-color: #D0D11D;
         border-radius: 50%;
         display: inline-block;
         float: left;
     }
-
+    table {
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
     td {
         width: 33%;
         padding: .5rem !important;
         border-top: 1px solid #d3d3d3;
         border-bottom: 1px solid #d3d3d3;
         vertical-align: top;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     td:not(:last-child) {
         border-right: 1px solid #d3d3d3;
@@ -69,8 +78,7 @@ $id = steralizeString($_GET['user']);
                 $result2 = $conn->query($sql);
                 if ($result2->num_rows > 0) {
                     while ($row2 = $result2->fetch_assoc()) {
-                        $html = (strlen($row['name']) > 25 ? substr($row['name'], 0, 25)."..." : $row['name']);
-                        $html .= " : " . (strlen($row2['name']) > 15 ? substr($row2['name'], 0, 15)."..." : $row2['name']);
+                        $html = "";
                         $sql = "SELECT * FROM `metric-log` WHERE systemID = " . $row['id'] . " AND metricID = '" . $row2['name'] . "' ORDER BY timestamp DESC LIMIT 1";
                         $result3 = $conn->query($sql);
                         if ($result3->num_rows > 0) {
@@ -83,6 +91,7 @@ $id = steralizeString($_GET['user']);
                         } else {
                             $html .= '<span class="yellow-dot" title="Insufficient data"></span>';
                         }
+                        $html .= $row['name'] . " : " . $row2['name'];
                         array_push($items, $html);
                     }
                 }
@@ -93,7 +102,7 @@ $id = steralizeString($_GET['user']);
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $html = strlen($row['name']) > 25 ? substr($row['name'], 0, 25)."..." : $row['name'];
+                $html = "";
                 $sql = "SELECT * FROM `cron-log` WHERE cronID = " . $row['id'] . " ORDER BY timestamp DESC LIMIT 2";
                 $result3 = $conn->query($sql);
                 if ($result3->num_rows != 2) {
@@ -112,12 +121,13 @@ $id = steralizeString($_GET['user']);
                         $html .= '<span class="red-dot" title="Failed"></span>';
                     }
                 }
+                $html .= $row['name'];
                 array_push($items, $html);
             }
         }
         ?>
 
-        <table class="table text-right">
+        <table class="table">
             <tbody>
                 <?php
                 $count = 0;
@@ -131,6 +141,12 @@ $id = steralizeString($_GET['user']);
                     if ($count % 3 == 2) {
                         echo '</tr>';
                     }
+                    $count++;
+                }
+                while ($count % 3 != 0) {
+                    echo '<td>';
+                    echo "&nbsp;";
+                    echo '</td>';
                     $count++;
                 }
                 ?>
