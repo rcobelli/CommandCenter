@@ -2,20 +2,19 @@
 
 include_once("init.php");
 
+if (!empty($_SESSION['id'])) {
+    header("Location: dashboard.php");
+    die();
+}
+
 $client = new Google_Client();
 $client->setAuthConfig('client_secret.json');
 $client->setAccessType("offline");        // offline access
 $client->setIncludeGrantedScopes(true);
 $client->addScope("email profile");
-$client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/login.php');
+// $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/login.php');
+$client->setRedirectUri('https://cc.rybel-llc.com/login.php');
 $auth_url = $client->createAuthUrl();
-
-include_once("init.php");
-
-if (!empty($_SESSION['id'])) {
-    header("Location: dashboard.php");
-    die();
-}
 
 ?>
 <html>
