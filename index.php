@@ -12,8 +12,7 @@ $client->setAuthConfig('client_secret.json');
 $client->setAccessType("offline");        // offline access
 $client->setIncludeGrantedScopes(true);
 $client->addScope("email profile");
-// $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/login.php');
-$client->setRedirectUri('https://cc.rybel-llc.com/login.php');
+$client->setRedirectUri('https://dev.rybel-llc.com/cc/login.php');
 $auth_url = $client->createAuthUrl();
 
 ?>

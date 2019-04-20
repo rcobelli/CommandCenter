@@ -55,10 +55,10 @@ if (empty($_SESSION['id'])) {
                 ?>
                 <div class="jumbotron">
                     <h1 class="display-4">Integration Instructions</h1>
-                    <p class="lead">In <code>crontab</code>, add <code> && curl https://cc.rybel-llc.com/cron/?id=<?php echo $_GET['code']; ?></code></p>
+                    <p class="lead">In <code>crontab</code>, add <code> && curl https://dev.rybel-llc.com/cc/cron/?id=<?php echo $_GET['code']; ?></code></p>
                     <hr class="my-4">
                     <p>Before: <code>0 1 * * * /path/to/myscript.sh</code></p>
-                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://cc.rybel-llc.com/cron/?id=<?php echo $_GET['code']; ?></code></p>
+                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://dev.rybel-llc.com/cc/cron/?id=<?php echo $_GET['code']; ?></code></p>
                 </div>
                 <?php
             } else {
@@ -127,7 +127,7 @@ if (empty($_SESSION['id'])) {
                 <?php
 
                 // List current system metrics
-                $sql = "SELECT * FROM `systems` WHERE userID = " . $_SESSION['id'] . " ORDER BY url";
+                $sql = "SELECT * FROM `systems` WHERE userID = " . $_SESSION['id'] . " ORDER BY name";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     ?>
@@ -154,7 +154,7 @@ if (empty($_SESSION['id'])) {
             </div>
         </div>
         <div class="alert alert-info" role="alert">
-            Your display dashboard URL is <a href="http://cc.rybel-llc.com/display?user=<?php echo $_SESSION['id']; ?>" target="_blank">http://cc.rybel-llc.com/display?user=<?php echo $_SESSION['id']; ?></a>
+            Your display dashboard URL is <a href="http://dev.rybel-llc.com/cc/display?user=<?php echo $_SESSION['id']; ?>" target="_blank">http://dev.rybel-llc.com/cc/display?user=<?php echo $_SESSION['id']; ?></a>
         </div>
 
     </div>
