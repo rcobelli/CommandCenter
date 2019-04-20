@@ -93,7 +93,9 @@ $id = steralizeString($_GET['user']);
                         $result3 = $conn->query($sql);
                         if ($result3->num_rows > 0) {
                             $row3 = $result3->fetch_assoc();
-                            if ($row3['status'] == 1) {
+                            if (strtotime($row3['timestamp']) <= strtotime('-6 hours')) {
+                                $html .= '<span class="yellow-dot" title="Old data"></span>';
+                            } else if ($row3['status'] == 1) {
                                 $html .= '<span class="green-dot" title="Good"></span>';
                             } else {
                                 $html .= '<span class="red-dot" title="Failed"></span>';
@@ -113,22 +115,17 @@ $id = steralizeString($_GET['user']);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $html = "";
-                $sql = "SELECT * FROM `cron-log` WHERE cronID = " . $row['id'] . " ORDER BY timestamp DESC LIMIT 2";
+                $sql = "SELECT * FROM `cron-log` WHERE cronID = " . $row['id'] . " ORDER BY timestamp DESC LIMIT 1";
                 $result3 = $conn->query($sql);
-                if ($result3->num_rows != 2) {
-                    if ($result3->num_rows == 0) {
-                        $html .= '<span class="red-dot" title="No data"></span>';
-                    } else {
-                        $html .= '<span class="yellow-dot" title="Insufficient data"></span>';
-                    }
+                if ($result3->num_rows == 0) {
+                    $html .= '<span class="yellow-dot" title="No data"></span>';
                 } else {
                     $recent = $result3->fetch_assoc();
-                    $older = $result3->fetch_assoc();
-                    $diff = (strtotime($recent['timestamp']) - strtotime($older['timestamp'])) / 60 / 60;
+                    $diff = (time() - strtotime($recent['timestamp'])) / 60 / 60;
                     if ($diff <= $row['frequency']) {
                         $html .= '<span class="green-dot" title="Good"></span>';
                     } else {
-                        $html .= '<span class="red-dot" title="Failed"></span>';
+                        $html .= '<span class="red-dot" title="Bad"></span>';
                     }
                 }
                 $html .= $row['name'];

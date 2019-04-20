@@ -115,7 +115,7 @@ if (empty($_GET['id'])) {
         <?php
         if ($mode == MODE_EDIT) {
             echo '<hr/><h3>Log</h3>';
-            $sql = "SELECT * FROM `cron-log` WHERE cronID = $id LIMIT 15";
+            $sql = "SELECT * FROM `cron-log` WHERE cronID = $id ORDER BY `timestamp` DESC LIMIT 15";
             $result = $conn->query($sql);
             if ($result->num_rows > 0) {
                 echo '<table>';

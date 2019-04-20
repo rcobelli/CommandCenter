@@ -19,14 +19,15 @@ if ($result->num_rows > 0) {
         if (curl_error($ch)) {
             $sql = "SELECT name FROM metrics WHERE systemID = $id";
             $result2 = $conn->query($sql);
-            if ($result->num_rows > 0) {
+            if ($result2->num_rows > 0) {
                 $sql = "INSERT INTO `metric-log` (systemID, metricID, timestamp, status) VALUES";
-                while ($row = $result2->fetch_assoc()) {
-                    $sql .= " ($id, '" . $row['name'] . "', NOW(), 0),";
+                while ($row2 = $result2->fetch_assoc()) {
+                    $sql .= " ($id, '" . $row2['name'] . "', NOW(), 0),";
                 }
                 $sql = rtrim($sql, ',');
                 if ($conn->query($sql) === false) {
-                    exit($conn->error);
+                    echo $sql;
+                    exit('Load failure. ' . $conn->error);
                 }
             }
         } else {
@@ -45,7 +46,8 @@ if ($result->num_rows > 0) {
 
                 $sql = "INSERT INTO `metric-log` (systemID, metricID, timestamp, status) VALUES ($id, '$name', NOW(), $status)";
                 if ($conn->query($sql) === false) {
-                    exit($conn->error);
+                    echo $sql;
+                    exit('Load success. ' . $conn->error);
                 }
             }
         }
