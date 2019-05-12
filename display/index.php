@@ -95,7 +95,7 @@ $id = steralizeString($_GET['user']);
                             $row3 = $result3->fetch_assoc();
                             if (strtotime($row3['timestamp']) <= strtotime('-6 hours')) {
                                 $html .= '<span class="yellow-dot" title="Old data"></span>';
-                            } else if ($row3['status'] == 1) {
+                            } elseif ($row3['status'] == 1) {
                                 $html .= '<span class="green-dot" title="Good"></span>';
                             } else {
                                 $html .= '<span class="red-dot" title="Failed"></span>';
