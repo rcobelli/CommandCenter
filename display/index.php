@@ -23,8 +23,15 @@ $id = steralizeString($_GET['user']);
     <meta name="msapplication-config" content="../favicon/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
     <meta http-equiv="refresh" content="180" >
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+    html, body {
+        overflow-x: hidden;
+    }
+    h2 {
+        text-align: center;
+    }
     .red-dot {
         height: 20px;
         width: 20px;
@@ -69,6 +76,12 @@ $id = steralizeString($_GET['user']);
     td:not(:last-child) {
         border-right: 1px solid #d3d3d3;
     }
+    @media screen and (max-width: 480px) {
+        h1 {
+            font-size: 20px;
+        }
+    }
+
     </style>
 </head>
 <body>
@@ -77,6 +90,9 @@ $id = steralizeString($_GET['user']);
         <h1 class="text-center my-4">System Status</h1>
 
         <?php
+
+        $errorOnly = $_GET['errorOnly'] == 'true';
+        $output = false;
 
         $items = array();
 
@@ -94,13 +110,19 @@ $id = steralizeString($_GET['user']);
                         if ($result3->num_rows > 0) {
                             $row3 = $result3->fetch_assoc();
                             if (strtotime($row3['timestamp']) <= strtotime('-6 hours')) {
+                                $output = true;
                                 $html .= '<span class="yellow-dot" title="Old data"></span>';
                             } elseif ($row3['status'] == 1) {
+                                if ($errorOnly) {
+                                    continue;
+                                }
                                 $html .= '<span class="green-dot" title="Good"></span>';
                             } else {
+                                $output = true;
                                 $html .= '<span class="red-dot" title="Failed"></span>';
                             }
                         } else {
+                            $output = true;
                             $html .= '<span class="yellow-dot" title="Insufficient data"></span>';
                         }
                         $html .= $row['name'] . " : " . $row2['name'];
@@ -118,13 +140,18 @@ $id = steralizeString($_GET['user']);
                 $sql = "SELECT * FROM `cron-log` WHERE cronID = " . $row['id'] . " ORDER BY timestamp DESC LIMIT 1";
                 $result3 = $conn->query($sql);
                 if ($result3->num_rows == 0) {
+                    $output = true;
                     $html .= '<span class="yellow-dot" title="No data"></span>';
                 } else {
                     $recent = $result3->fetch_assoc();
                     $diff = (time() - strtotime($recent['timestamp'])) / 60 / 60;
                     if ($diff <= $row['frequency']) {
+                        if ($errorOnly) {
+                            continue;
+                        }
                         $html .= '<span class="green-dot" title="Good"></span>';
                     } else {
+                        $output = true;
                         $html .= '<span class="red-dot" title="Bad"></span>';
                     }
                 }
@@ -132,33 +159,40 @@ $id = steralizeString($_GET['user']);
                 array_push($items, $html);
             }
         }
-        ?>
 
-        <table class="table">
-            <tbody>
-                <?php
-                $count = 0;
-                while ($count < count($items)) {
-                    if ($count % 3 == 0) {
-                        echo '<tr>';
+
+        if ($errorOnly && !$output) {
+            echo '<h2>👍</h2>';
+        } else {
+            ?>
+            <table class="table">
+                <tbody>
+                    <?php
+                    $count = 0;
+                    while ($count < count($items)) {
+                        if ($count % 3 == 0) {
+                            echo '<tr>';
+                        }
+                        echo '<td>';
+                        echo $items[$count];
+                        echo '</td>';
+                        if ($count % 3 == 2) {
+                            echo '</tr>';
+                        }
+                        $count++;
                     }
-                    echo '<td>';
-                    echo $items[$count];
-                    echo '</td>';
-                    if ($count % 3 == 2) {
-                        echo '</tr>';
+                    while ($count % 3 != 0) {
+                        echo '<td>';
+                        echo "&nbsp;";
+                        echo '</td>';
+                        $count++;
                     }
-                    $count++;
-                }
-                while ($count % 3 != 0) {
-                    echo '<td>';
-                    echo "&nbsp;";
-                    echo '</td>';
-                    $count++;
-                }
-                ?>
-            </tbody>
-        </table>
+                    ?>
+                </tbody>
+            </table>
+            <?php
+        }
+        ?>
     </div>
 </body>
 </html>
