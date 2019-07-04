@@ -1,25 +1,42 @@
 <?php
 
-// Client ID: 280833156075-naqcuf9rut3ir7avmqvtv5050h4ajkfv.apps.googleusercontent.com
-// Client Secret: yvRgyoGjZAT9wRTamPZzHuuG
-
-include_once("init.php");
-
 if (isset($_GET['error'])) {
     exit($_GET);
 }
 
 $client = new Google_Client();
-$client->setAuthConfig('client_secret.json');
+$client->setAuthConfig('../cc-client_secret.json');
+$client->setAccessType("offline");        // offline access
+$client->setIncludeGrantedScopes(true);
+if (devEnv()) {
+    $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/index.php');
+} else {
+    $client->setRedirectUri('https://dev.rybel-llc.com/cc/index.php');
+}
 $client->authenticate($_GET['code']);
 $access_token = $client->getAccessToken();
-$_SESSION['access_token'] = $access_token;
+$_SESSION['access_token'] = $access_token['access_token'];
 
-$plus = new Google_Service_Plus($client);
-$person = $plus->people->get('me');
 
-$_SESSION['name'] = $person['displayName'];
-$_SESSION['email'] = $person['emails'][0]['value'];
-$_SESSION['id'] = $person['id'];
+$plus = new Google_Service_Oauth2($client);
+$person = $plus->userinfo->get();
+
+$_SESSION['name'] = $person['name'];
+$_SESSION['email'] = $person['email'];
+$_SESSION['id'] = md5($person['email']);
+
+
+//Where the magic happends
+if (isset($_SESSION['access_token'])) {
+
+    //Set the new access token after authentication
+    $client->setAccessToken($_SESSION['access_token']);
+
+    //json decode the session token and save it in a variable as object
+    $sessionToken = json_decode($_SESSION['access_token']);
+
+    setcookie('commandcenter', json_encode(array('name' => $person['name'], 'email' => $person['email'], 'id' => md5($person['email']))), time() + (86400 * 30), "/"); // 86400 = 1 day
+}
 
 header("Location: dashboard.php");
+die();

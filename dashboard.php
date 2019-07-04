@@ -96,7 +96,7 @@ if (empty($_SESSION['id'])) {
                 <?php
 
                 // List current cron jobs
-                $sql = "SELECT * FROM `cron` WHERE userID = " . $_SESSION['id'] . " ORDER BY name";
+                $sql = "SELECT * FROM `cron` WHERE userID = '" . $_SESSION['id'] . "' ORDER BY name";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     ?>
@@ -127,7 +127,7 @@ if (empty($_SESSION['id'])) {
                 <?php
 
                 // List current system metrics
-                $sql = "SELECT * FROM `systems` WHERE userID = " . $_SESSION['id'] . " ORDER BY name";
+                $sql = "SELECT * FROM `systems` WHERE userID = '" . $_SESSION['id'] . "' ORDER BY name";
                 $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     ?>

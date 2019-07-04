@@ -169,25 +169,24 @@ $id = steralizeString($_GET['user']);
                 <tbody>
                     <?php
                     $count = 0;
-                    while ($count < count($items)) {
-                        if ($count % 3 == 0) {
-                            echo '<tr>';
-                        }
-                        echo '<td>';
-                        echo $items[$count];
-                        echo '</td>';
-                        if ($count % 3 == 2) {
-                            echo '</tr>';
-                        }
-                        $count++;
-                    }
-                    while ($count % 3 != 0) {
-                        echo '<td>';
-                        echo "&nbsp;";
-                        echo '</td>';
-                        $count++;
-                    }
-                    ?>
+            while ($count < count($items)) {
+                if ($count % 3 == 0) {
+                    echo '<tr>';
+                }
+                echo '<td>';
+                echo $items[$count];
+                echo '</td>';
+                if ($count % 3 == 2) {
+                    echo '</tr>';
+                }
+                $count++;
+            }
+            while ($count % 3 != 0) {
+                echo '<td>';
+                echo "&nbsp;";
+                echo '</td>';
+                $count++;
+            } ?>
                 </tbody>
             </table>
             <?php

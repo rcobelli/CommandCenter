@@ -7,13 +7,32 @@ if (!empty($_SESSION['id'])) {
     die();
 }
 
-$client = new Google_Client();
-$client->setAuthConfig('client_secret.json');
-$client->setAccessType("offline");        // offline access
-$client->setIncludeGrantedScopes(true);
-$client->addScope("email profile");
-$client->setRedirectUri('https://dev.rybel-llc.com/cc/login.php');
-$auth_url = $client->createAuthUrl();
+if (isset($_GET['code'])) {
+    include_once("login.php");
+} elseif (isset($_COOKIE['commandcenter'])) {
+    $data = json_decode($_COOKIE['commandcenter']);
+    $_SESSION['name'] = $data->name;
+    $_SESSION['email'] = $data->email;
+    $_SESSION['id'] = $data->id;
+
+    header("Location: dashboard.php");
+    die();
+} else {
+    $client = new Google_Client();
+    $client->setAuthConfig('../cc-client_secret.json');
+    $client->setAccessType("offline");        // offline access
+    $client->setIncludeGrantedScopes(true);
+    $client->addScope("profile");
+    if (isset($_GET['email'])) {
+        $client->setLoginHint(urldecode($_GET['email']));
+    }
+    if (devEnv()) {
+        $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/index.php');
+    } else {
+        $client->setRedirectUri('https://dev.rybel-llc.com/cc/index.php');
+    }
+    $auth_url = $client->createAuthUrl();
+}
 
 ?>
 <html lang="en">
