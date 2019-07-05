@@ -25,6 +25,7 @@ if (session_status() == PHP_SESSION_NONE) {
 
 define('MODE_NEW', 'new');
 define('MODE_EDIT', 'edit');
+define('DELETE', 'delete');
 
 // Steralize input (remove crazy characters)
 function steralizeString($str)

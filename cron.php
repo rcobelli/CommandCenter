@@ -7,7 +7,7 @@ if (empty($_SESSION['id'])) {
     die();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_POST['action'] == MODE_NEW) {
     $name = steralizeString($_POST['name']);
     $frequency = steralizeString($_POST['frequency']);
 
@@ -18,13 +18,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <?php
     } else {
-        $sql = "INSERT INTO `cron` (name, frequency, userID) VALUES ('$name', $frequency, " . $_SESSION['id'] . ")";
+        $sql = "INSERT INTO `cron` (name, frequency, userID) VALUES ('$name', $frequency, '" . $_SESSION['id'] . "')";
         if ($conn->query($sql) === false) {
             echo $conn->error;
         } else {
             header("Location: dashboard.php?action=success&type=cron&code=" . $conn->insert_id);
             die();
         }
+    }
+} elseif ($_POST['action'] == MODE_EDIT) {
+    $name = steralizeString($_POST['name']);
+    $frequency = steralizeString($_POST['frequency']);
+    $id = steralizeString($_POST['id']);
+
+    if (empty($name) || empty($frequency) || empty($id)) {
+        ?>
+        <div class="alert alert-danger" role="alert">
+            All Fields Are Required
+        </div>
+        <?php
+    } else {
+        $sql = "UPDATE `cron` SET name = '$name', frequency = $frequency WHERE id = $id";
+        if ($conn->query($sql) === false) {
+            echo $conn->error;
+        } else {
+            header("Location: dashboard.php?action=success&type=cron&code=" . $id);
+            die();
+        }
+    }
+} elseif ($_GET['action'] == DELETE) {
+    $id = steralizeString($_GET['id']);
+
+    if (!empty($id)) {
+        $sql = "DELETE FROM `cron` WHERE id = $id";
+        $conn->query($sql);
+
+        header("Location: index.php?action=success&type=delete");
+        die();
     }
 }
 
@@ -100,6 +130,12 @@ if (empty($_GET['id'])) {
             if ($mode == MODE_EDIT):
                 ?>
                 <small style="float: right;">ID: <?php echo $id; ?></small>
+                <input type="hidden" name="action" value="<?php echo MODE_EDIT; ?>">
+                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <?php
+            else:
+                ?>
+                <input type="hidden" name="action" value="<?php echo MODE_NEW; ?>">
                 <?php
             endif;
             ?>
@@ -114,6 +150,7 @@ if (empty($_GET['id'])) {
 
         <?php
         if ($mode == MODE_EDIT) {
+            echo '<a href="?action=delete&id=' . $_GET['id'] . '"><button type="submit" class="btn btn-danger">Delete</button></a>';
             echo '<hr/><h3>Log</h3>';
             $sql = "SELECT * FROM `cron-log` WHERE cronID = $id ORDER BY `timestamp` DESC LIMIT 15";
             $result = $conn->query($sql);

@@ -61,6 +61,12 @@ if (empty($_SESSION['id'])) {
                     <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://dev.rybel-llc.com/cc/cron/?id=<?php echo $_GET['code']; ?></code></p>
                 </div>
                 <?php
+            } elseif ($_GET['type'] == 'delete') {
+                ?>
+                <div class="alert alert-success" role="alert">
+                    Successfully deleted item!
+                </div>
+                <?php
             } else {
                 ?>
                 <div class="alert alert-success" role="alert">

@@ -7,7 +7,7 @@ if (empty($_SESSION['id'])) {
     die();
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_POST['action'] == MODE_NEW) {
     $name = steralizeString($_POST['name']);
     $url = steralizeString($_POST['url']);
     $username = steralizeString($_POST['username']);
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <?php
     } else {
-        $sql = "INSERT INTO `systems` (name, url, username, password, userID) VALUES ('$name', '$url', '$username', '$password', " . $_SESSION['id'] . ")";
+        $sql = "INSERT INTO `systems` (name, url, username, password, userID) VALUES ('$name', '$url', '$username', '$password', '" . $_SESSION['id'] . "')";
         if ($conn->query($sql) === false) {
             ?>
             <div class="alert alert-danger" role="alert">
@@ -59,10 +59,81 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 }
 
+                header("Location: index.php?action=success&type=metric");
+                die();
+            }
+        }
+    }
+} elseif ($_POST['action'] == MODE_EDIT) {
+    $name = steralizeString($_POST['name']);
+    $url = steralizeString($_POST['url']);
+    $id = steralizeString($_POST['id']);
+    $username = steralizeString($_POST['username']);
+    $password = steralizeString($_POST['password']);
+
+    if (empty($url) || empty($username) || empty($password) || empty($name) || empty($id)) {
+        ?>
+        <div class="alert alert-danger" role="alert">
+            All Fields Are Required
+        </div>
+        <?php
+    } else {
+        $sql = "UPDATE `systems` SET name = '$name', url = '$url', username = '$username', password = '$password' WHERE id = $id";
+        if ($conn->query($sql) === false) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+                <?php echo $conn->error; ?>
+            </div>
+            <?php
+        } else {
+            $sql = "DELETE FROM `metrics` WHERE systemID = $id";
+            $conn->query($sql);
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url . ":2812/_status?format=xml");
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_USERPWD, $username . ":" . $password);
+            curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+            $output = curl_exec($ch);
+            $info = curl_getinfo($ch);
+
+            if (curl_error($ch)) {
+                ?>
+                <div class="alert alert-danger" role="alert">
+                    System is unreachable
+                </div>
+                <?php
+            } else {
+                $xml = simplexml_load_string($output);
+                $json = json_encode($xml);
+                $raw = json_decode($json, true);
+                $temp = array();
+
+                foreach ($raw['service'] as $service) {
+                    $sql = "INSERT INTO metrics (systemID, name) VALUES ($id, '" . $service['name'] . "')";
+                    if ($conn->query($sql) === false) {
+                        exit($conn->error);
+                    }
+                }
+
                 header("Location: dashboard.php?action=success&type=metric");
                 die();
             }
         }
+    }
+} elseif ($_GET['action'] == DELETE) {
+    $id = steralizeString($_GET['id']);
+
+    if (!empty($id)) {
+        $sql = "DELETE FROM `metrics` WHERE systemID = $id";
+        $conn->query($sql);
+
+        $sql = "DELETE FROM `systems` WHERE id = $id";
+        $conn->query($sql);
+
+        header("Location: index.php?action=success&type=delete");
+        die();
     }
 }
 
@@ -134,6 +205,18 @@ if (empty($_GET['id'])) {
         ?>
 
         <form method="post">
+            <?php
+            if ($mode == MODE_EDIT):
+                ?>
+                <input type="hidden" name="action" value="<?php echo MODE_EDIT; ?>">
+                <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
+                <?php
+            else:
+                ?>
+                <input type="hidden" name="action" value="<?php echo MODE_NEW; ?>">
+                <?php
+            endif;
+            ?>
             <div class="form-group">
                 <label>Name: </label><input type="text" name="name" required value="<?php echo $row['name']; ?>" class="form-control" placeholder="Website">
             </div>
@@ -151,6 +234,7 @@ if (empty($_GET['id'])) {
 
         <?php
         if ($mode == MODE_EDIT) {
+            echo '<a href="?action=delete&id=' . $_GET['id'] . '"><button type="submit" class="btn btn-danger">Delete</button></a>';
             echo '<hr/><h3>Metrics</h3>';
             $sql = "SELECT * FROM `metrics` WHERE systemID = $id";
             $result = $conn->query($sql);
