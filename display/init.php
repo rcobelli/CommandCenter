@@ -10,7 +10,7 @@ require_once("../vendor/autoload.php");
 // error_reporting(-1);
 error_reporting(0);
 
-$conn = mysqli_connect("76.97.57.153", $ini['db_user'], $ini['db_password'], "CommandCenter");
+$conn = mysqli_connect($ini['db_ip'], $ini['db_user'], $ini['db_password'], "CommandCenter");
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
     die();

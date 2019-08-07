@@ -9,7 +9,7 @@ if (!empty($_SESSION['id'])) {
 
 if (isset($_GET['code'])) {
     include_once("login.php");
-} elseif (isset($_COOKIE['commandcenter'])) {
+} elseif (!empty($_COOKIE['commandcenter'])) {
     $data = json_decode($_COOKIE['commandcenter']);
     $_SESSION['name'] = $data->name;
     $_SESSION['email'] = $data->email;
