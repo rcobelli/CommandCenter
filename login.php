@@ -5,7 +5,7 @@ if (isset($_GET['error'])) {
 }
 
 $client = new Google_Client();
-$client->setAuthConfig('../cc-client_secret.json');
+$client->setAuthConfig('cc-client_secret.json');
 $client->setAccessType("offline");        // offline access
 $client->setIncludeGrantedScopes(true);
 if (devEnv()) {

@@ -7,3 +7,8 @@ RewriteEngine On
 RewriteCond %{HTTPS} !=on
 RewriteCond %{HTTP_HOST} ^dev.rybel-llc.com$
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI}
+
+<Files "*.json">  
+  Order Allow,Deny
+  Deny from all
+</Files>
