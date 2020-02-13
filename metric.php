@@ -43,7 +43,7 @@ if ($_POST['action'] == MODE_NEW) {
                 $sql = "DELETE FROM `systems` WHERE id = $id";
                 $conn->query($sql); ?>
                 <div class="alert alert-danger" role="alert">
-                    System is unreachable
+                    System is unreachable. <?php echo curl_error($ch); ?>
                 </div>
                 <?php
             } else {
@@ -101,7 +101,7 @@ if ($_POST['action'] == MODE_NEW) {
             if (curl_error($ch)) {
                 ?>
                 <div class="alert alert-danger" role="alert">
-                    System is unreachable
+                    System is unreachable. <?php echo curl_error($ch); ?>
                 </div>
                 <?php
             } else {

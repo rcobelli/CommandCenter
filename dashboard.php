@@ -160,7 +160,7 @@ if (empty($_SESSION['id'])) {
             </div>
         </div>
         <div class="alert alert-info" role="alert">
-            Your display dashboard URL is <a href="https://dev.rybel-llc.com/cc/display?user=<?php echo $_SESSION['id']; ?>&errorOnly=false" target="_blank">https://dev.rybel-llc.com/cc/display?user=<?php echo $_SESSION['id']; ?>&errorOnly=false</a>
+            Your display dashboard URL is <a href="<?php echo getURL(); ?>display?user=<?php echo $_SESSION['id']; ?>&errorOnly=false" target="_blank"><?php echo getURL(); ?>display?user=<?php echo $_SESSION['id']; ?>&errorOnly=false</a>
         </div>
 
     </div>

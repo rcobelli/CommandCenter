@@ -19,18 +19,14 @@ if (isset($_GET['code'])) {
     die();
 } else {
     $client = new Google_Client();
-    $client->setAuthConfig('../cc-client_secret.json');
+    $client->setAuthConfig('client_secret.json');
     $client->setAccessType("offline");        // offline access
     $client->setIncludeGrantedScopes(true);
     $client->addScope("profile");
     if (isset($_GET['email'])) {
         $client->setLoginHint(urldecode($_GET['email']));
     }
-    if (devEnv()) {
-        $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/index.php');
-    } else {
-        $client->setRedirectUri('https://dev.rybel-llc.com/cc/index.php');
-    }
+    $client->setRedirectUri(getURL() . 'index.php');
     $auth_url = $client->createAuthUrl();
 }
 

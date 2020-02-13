@@ -5,14 +5,10 @@ if (isset($_GET['error'])) {
 }
 
 $client = new Google_Client();
-$client->setAuthConfig('cc-client_secret.json');
+$client->setAuthConfig('client_secret.json');
 $client->setAccessType("offline");        // offline access
 $client->setIncludeGrantedScopes(true);
-if (devEnv()) {
-    $client->setRedirectUri('http://localhost/~ryan/cc/cc_backend/index.php');
-} else {
-    $client->setRedirectUri('https://dev.rybel-llc.com/cc/index.php');
-}
+$client->setRedirectUri(getURL() . 'index.php');
 $client->authenticate($_GET['code']);
 $access_token = $client->getAccessToken();
 $_SESSION['access_token'] = $access_token['access_token'];
