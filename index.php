@@ -18,16 +18,21 @@ if (isset($_GET['code'])) {
     header("Location: dashboard.php");
     die();
 } else {
-    $client = new Google_Client();
-    $client->setAuthConfig('client_secret.json');
-    $client->setAccessType("offline");        // offline access
-    $client->setIncludeGrantedScopes(true);
-    $client->addScope("profile");
-    if (isset($_GET['email'])) {
-        $client->setLoginHint(urldecode($_GET['email']));
+
+    try {
+        $client = new Google_Client();
+        $client->setAuthConfig('client_secret.json');
+        $client->setAccessType("offline");        // offline access
+        $client->setIncludeGrantedScopes(true);
+        $client->addScope("profile");
+        if (isset($_GET['email'])) {
+            $client->setLoginHint(urldecode($_GET['email']));
+        }
+        $client->setRedirectUri(getURL() . 'index.php');
+        $auth_url = $client->createAuthUrl();
+    } catch (Google_Exception $e) {
+        exit($e);
     }
-    $client->setRedirectUri(getURL() . 'index.php');
-    $auth_url = $client->createAuthUrl();
 }
 
 ?>
@@ -59,7 +64,7 @@ if (isset($_GET['code'])) {
     <div class="container d-flex h-100 p-3 mx-auto flex-column">
         <header class="mb-auto">
             <div class="inner">
-                <img src="assets/icon.png" height="100px" style="float: left;" class="mr-5">
+                <img src="assets/icon.png" height="100px" style="float: left;" class="mr-5" alt="">
                 <h1 style="line-height: 100px; text-align: left">Command Center</h1>
             </div>
         </header>
@@ -77,7 +82,7 @@ if (isset($_GET['code'])) {
             <p class="lead">First you have to setup <a href="https://mmonit.com/monit/" target="_blank">Monit</a> on any server that you want to monitor key metrics from. Configure Monit to track certain processes, CPU usage, disk space or any other metric they support. Link Command Center to your Monit instance to aggregate that data into your dashboard.</p>
             <p class="lead">To track cron jobs, simply add a bit of code to your <code>crontab</code> file by following the included instructions.</p>
             <p class="lead">Finally, check in often to your dashboard to see a color-coded overview of all your key business operations</p>
-            <img src="assets/dashboard.png" height="200px;" class="mb-3">
+            <img src="assets/dashboard.png" height="200px;" class="mb-3" alt="">
         </main>
     </div>
 </body>

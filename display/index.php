@@ -10,7 +10,7 @@ if (empty($_GET['user'])) {
 $id = steralizeString($_GET['user']);
 
 ?>
-<html>
+<html lang="en-US">
 <head>
     <title>Command Center | System Status</title>
     <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">

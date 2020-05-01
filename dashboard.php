@@ -8,7 +8,7 @@ if (empty($_SESSION['id'])) {
 }
 
 ?>
-<html>
+<html lang="en-US">
 <head>
     <title>Command Center | Dashboard</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">

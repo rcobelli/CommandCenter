@@ -153,7 +153,7 @@ if (empty($_GET['id'])) {
 }
 
 ?>
-<html>
+<html lang="en-US">
 <head>
     <title>Command Center | Metric</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
@@ -169,18 +169,6 @@ if (empty($_GET['id'])) {
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <script>
-    jQuery(document).ready(function($) {
-        $(".clickable-row").click(function() {
-            window.location = $(this).data("href");
-        });
-    });
-    </script>
-    <style>
-    .clickable-row {
-        cursor: pointer;
-    }
-    </style>
 </head>
 <body>
     <nav aria-label="breadcrumb">
@@ -218,16 +206,16 @@ if (empty($_GET['id'])) {
             endif;
             ?>
             <div class="form-group">
-                <label>Name: </label><input type="text" name="name" required value="<?php echo $row['name']; ?>" class="form-control" placeholder="Website">
+                <label>Name: <input type="text" name="name" required value="<?php echo $row['name']; ?>" class="form-control" placeholder="Website"></label>
             </div>
             <div class="form-group">
-                <label>URL: </label><input type="text" name="url" required value="<?php echo $row['url']; ?>" class="form-control" placeholder="http://google.com">
+                <label>URL: <input type="text" name="url" required value="<?php echo $row['url']; ?>" class="form-control" placeholder="http://google.com"></label>
             </div>
             <div class="form-group">
-                <label>Username: </label><input type="text" name="username" required value="<?php echo $row['username']; ?>" class="form-control" placeholder="admin">
+                <label>Username: <input type="text" name="username" required value="<?php echo $row['username']; ?>" class="form-control" placeholder="admin"></label>
             </div>
             <div class="form-group">
-                <label>Password: </label><input type="password" name="password" required value="<?php echo $row['password']; ?>" class="form-control" placeholder="1234">
+                <label>Password: <input type="password" name="password" required value="<?php echo $row['password']; ?>" class="form-control" placeholder="1234"></label>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
