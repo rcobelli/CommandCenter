@@ -8,6 +8,7 @@ You can either host your own instillation of this program or use my hosted versi
 
 ## Tracking Cron Jobs/Systems
 __Cron Jobs__: All you have to do is add a bit of additional code to the `crontab`. After a cron job runs, just add a `curl` call to our API to confirm that the job ran successfully. Our documentation will give you the exact details on what to do.
+
 __System Monitoring__: First you have to configure [Monit](https://mmonit.com/monit/) to track your system metrics and expose a web interface. Once you've done this, just add you Monit login credentials to this system and Command Center will periodically poll your Monit instances and report back on all the system statuses.
 
 ## Display Page
