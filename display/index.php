@@ -100,6 +100,21 @@ $id = steralizeString($_GET['user']);
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
+
+                if (strtotime($row['expDate']) <= time()) {
+                    $output = true;
+                    $html = '<span class="red-dot" title="Expired"></span>';
+                } else if (strtotime($row['expDate']) <= strtotime('+5 days')) {
+                    $output = true;
+                    $html = '<span class="yellow-dot" title="Expiring Soon"></span>';
+                } else {
+                    $html = '<span class="green-dot" title="Good"></span>';
+                }
+                $html .= $row['name'] . " : SSL Cert";
+                array_push($items, $html);
+
+
+
                 $sql = "SELECT name FROM `metrics` WHERE systemID = " . $row['id'];
                 $result2 = $conn->query($sql);
                 if ($result2->num_rows > 0) {
