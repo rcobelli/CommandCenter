@@ -104,15 +104,20 @@ $id = steralizeString($_GET['user']);
                 if (strtotime($row['expDate']) <= time()) {
                     $output = true;
                     $html = '<span class="red-dot" title="Expired"></span>';
+                    $html .= $row['name'] . " : SSL Cert";
+                    array_push($items, $html);
                 } else if (strtotime($row['expDate']) <= strtotime('+5 days')) {
                     $output = true;
-                    $html = '<span class="yellow-dot" title="Expiring Soon"></span>';
+                    $html = '<span class="yellow-dot" title="Expiring Soon - ' . $row['expDate'] . '"></span>';
+                    $html .= $row['name'] . " : SSL Cert";
+                    array_push($items, $html);
                 } else {
-                    $html = '<span class="green-dot" title="Good"></span>';
+                    if (!$errorOnly) {
+                        $html = '<span class="green-dot" title="Good"></span>';
+                        $html .= $row['name'] . " : SSL Cert";
+                        array_push($items, $html);
+                    }
                 }
-                $html .= $row['name'] . " : SSL Cert";
-                array_push($items, $html);
-
 
 
                 $sql = "SELECT name FROM `metrics` WHERE systemID = " . $row['id'];
