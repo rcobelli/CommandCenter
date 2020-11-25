@@ -137,9 +137,15 @@ $id = steralizeString($_GET['user']);
                                     continue;
                                 }
                                 $html .= '<span class="green-dot" title="Good"></span>';
-                            } else {
+                            } elseif ($row3['status'] == 0) {
                                 $output = true;
                                 $html .= '<span class="red-dot" title="Failed"></span>';
+                            } elseif ($row3['status'] == 2) {
+                                $output = true;
+                                $html .= '<span class="yellow-dot" title="Monitoring Down"></span>';
+                            } else {
+                                $output = true;
+                                $html .= '<span class="yellow-dot" title="Other"></span>';
                             }
                         } else {
                             $output = true;

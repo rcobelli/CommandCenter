@@ -23,7 +23,7 @@ if ($result->num_rows > 0) {
                 /** @noinspection SyntaxError */
                 $sql = "INSERT INTO `metric-log` (systemID, metricID, timestamp, status) VALUES";
                 while ($row2 = $result2->fetch_assoc()) {
-                    $sql .= " ($id, '" . $row2['name'] . "', NOW(), 0),";
+                    $sql .= " ($id, '" . $row2['name'] . "', NOW(), 2),";
                 }
                 $sql = rtrim($sql, ',');
                 if ($conn->query($sql) === false) {
