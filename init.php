@@ -5,10 +5,13 @@ $ini = parse_ini_file("config.ini", true)["cc"];
 
 require_once("vendor/autoload.php");
 
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(-1);
-error_reporting(0);
+if ($_COOKIE['debug'] == 'true') {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(-1);
+} else {
+    error_reporting(0);
+}
 
 $conn = mysqli_connect($ini['db_ip'], $ini['db_user'], $ini['db_password'], "CommandCenter");
 if (mysqli_connect_errno()) {
