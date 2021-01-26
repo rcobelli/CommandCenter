@@ -1,3 +1,3 @@
 #!/bin/bash
-cd /var/www/html/commandcenter
+cd /var/www/html/cc
 /usr/local/bin/composer install
