@@ -46,9 +46,5 @@ function devEnv()
 function getURL() {
     global $ini;
 
-    if (devEnv()) {
-        return $ini['dev_link'];
-    } else {
-        return $ini['link'];
-    }
+    return $ini['link'];
 }
