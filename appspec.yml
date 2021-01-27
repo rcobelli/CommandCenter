@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/html/cc
+    destination: /var/www/html/commandcenter
 hooks:
   AfterInstall:
     - location: appspec.sh
