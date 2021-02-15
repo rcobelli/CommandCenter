@@ -96,7 +96,7 @@ $id = steralizeString($_GET['user']);
 
         $items = array();
 
-        $sql = "SELECT * FROM `systems` WHERE userID = '$id'";
+        $sql = "SELECT * FROM `systems` WHERE userID = '$id' ORDER BY name";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
@@ -158,7 +158,7 @@ $id = steralizeString($_GET['user']);
             }
         }
 
-        $sql = "SELECT * FROM `cron` WHERE userID = '$id'";
+        $sql = "SELECT * FROM `cron` WHERE userID = '$id' ORDER BY name";
         $result = $conn->query($sql);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
