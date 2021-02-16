@@ -55,10 +55,10 @@ if (empty($_SESSION['id'])) {
                 ?>
                 <div class="jumbotron">
                     <h1 class="display-4">Integration Instructions</h1>
-                    <p class="lead">In <code>crontab</code>, add <code> && curl https://dev.rybel-llc.com/cc/cron/?id=<?php echo $_GET['code']; ?></code></p>
+                    <p class="lead">In <code>crontab</code>, add <code> && curl https://dev.rybel-llc.com/commandcenter/cron/?id=<?php echo $_GET['code']; ?></code></p>
                     <hr class="my-4">
                     <p>Before: <code>0 1 * * * /path/to/myscript.sh</code></p>
-                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://dev.rybel-llc.com/cc/cron/?id=<?php echo $_GET['code']; ?></code></p>
+                    <p>After: <code>0 1 * * * /path/to/myscript.sh && curl https://dev.rybel-llc.com/commandcenter/cron/?id=<?php echo $_GET['code']; ?></code></p>
                 </div>
                 <?php
             } elseif ($_GET['type'] == 'delete') {
