@@ -4,7 +4,7 @@
 ![Screenshot](screenshot.png)
 
 ## Usage
-You can either host your own instillation of this program or use my hosted version at [https://dev.rybel-llc.com/cc](https://dev.rybel-llc.com/cc)
+You can either host your own instillation of this program or use my hosted version at [https://dev.rybel-llc.com/commandcenter](https://dev.rybel-llc.com/commandcenter)
 
 ## Tracking Cron Jobs/Systems
 __Cron Jobs__: All you have to do is add a bit of additional code to the `crontab`. After a cron job runs, just add a `curl` call to our API to confirm that the job ran successfully. Our documentation will give you the exact details on what to do.
