@@ -10,6 +10,7 @@ if (empty($_SESSION['id'])) {
 if ($_POST['action'] == MODE_NEW) {
     $name = steralizeString($_POST['name']);
     $url = steralizeString($_POST['url']);
+    $canaryURL = steralizeString($_POST['canary']);
     $username = steralizeString($_POST['username']);
     $password = steralizeString($_POST['password']);
 
@@ -20,7 +21,7 @@ if ($_POST['action'] == MODE_NEW) {
         </div>
         <?php
     } else {
-        $sql = "INSERT INTO `systems` (name, url, username, password, userID) VALUES ('$name', '$url', '$username', '$password', '" . $_SESSION['id'] . "')";
+        $sql = "INSERT INTO `systems` (name, url, username, password, userID, canaryURL) VALUES ('$name', '$url', '$username', '$password', '" . $_SESSION['id'] . "', '$canaryURL')";
         if ($conn->query($sql) === false) {
             ?>
             <div class="alert alert-danger" role="alert">
@@ -59,6 +60,13 @@ if ($_POST['action'] == MODE_NEW) {
                     }
                 }
 
+                if ($canaryURL != null) {
+                    $sql = "INSERT INTO metrics (systemID, name) VALUES ($id, 'Canary')";
+                    if ($conn->query($sql) === false) {
+                        exit($conn->error);
+                    }
+                }
+
                 header("Location: index.php?action=success&type=metric");
                 die();
             }
@@ -68,6 +76,7 @@ if ($_POST['action'] == MODE_NEW) {
     $name = steralizeString($_POST['name']);
     $url = steralizeString($_POST['url']);
     $id = steralizeString($_POST['id']);
+    $canaryURL = steralizeString($_POST['canary']);
     $username = steralizeString($_POST['username']);
     $password = steralizeString($_POST['password']);
 
@@ -78,7 +87,7 @@ if ($_POST['action'] == MODE_NEW) {
         </div>
         <?php
     } else {
-        $sql = "UPDATE `systems` SET name = '$name', url = '$url', username = '$username', password = '$password' WHERE id = $id";
+        $sql = "UPDATE `systems` SET name = '$name', url = '$url', username = '$username', password = '$password', canaryURL = '$canaryURL' WHERE id = $id";
         if ($conn->query($sql) === false) {
             ?>
             <div class="alert alert-danger" role="alert">
@@ -116,6 +125,14 @@ if ($_POST['action'] == MODE_NEW) {
                         exit($conn->error);
                     }
                 }
+
+                if ($canaryURL != null) {
+                    $sql = "INSERT INTO metrics (systemID, name) VALUES ($id, 'Canary')";
+                    if ($conn->query($sql) === false) {
+                        exit($conn->error);
+                    }
+                }
+
 
                 header("Location: dashboard.php?action=success&type=metric");
                 die();
@@ -210,6 +227,9 @@ if (empty($_GET['id'])) {
             </div>
             <div class="form-group">
                 <label>URL: <input type="text" name="url" required value="<?php echo $row['url']; ?>" class="form-control" placeholder="http://google.com"></label>
+            </div>
+            <div class="form-group">
+                <label>Canary URL: <input type="text" name="canary" value="<?php echo $row['canary']; ?>" class="form-control" placeholder="http://google.com/canary"></label>
             </div>
             <div class="form-group">
                 <label>Username: <input type="text" name="username" required value="<?php echo $row['username']; ?>" class="form-control" placeholder="admin"></label>
