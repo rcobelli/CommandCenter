@@ -101,21 +101,24 @@ $id = steralizeString($_GET['user']);
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
 
-                if (strtotime($row['expDate']) <= time()) {
-                    $output = true;
-                    $html = '<span class="red-dot" title="Expired"></span>';
-                    $html .= $row['name'] . " : SSL Cert";
-                    array_push($items, $html);
-                } else if (strtotime($row['expDate']) <= strtotime('+5 days')) {
-                    $output = true;
-                    $html = '<span class="yellow-dot" title="Expiring Soon - ' . $row['expDate'] . '"></span>';
-                    $html .= $row['name'] . " : SSL Cert";
-                    array_push($items, $html);
-                } else {
-                    if (!$errorOnly) {
-                        $html = '<span class="green-dot" title="Good"></span>';
+                if (!is_null($row['expDate'])) {
+                    // Don't check the expDate if it's null (no ssl cert to check)
+                    if (strtotime($row['expDate']) <= time()) {
+                        $output = true;
+                        $html = '<span class="red-dot" title="Expired"></span>';
                         $html .= $row['name'] . " : SSL Cert";
                         array_push($items, $html);
+                    } else if (strtotime($row['expDate']) <= strtotime('+5 days')) {
+                        $output = true;
+                        $html = '<span class="yellow-dot" title="Expiring Soon - ' . $row['expDate'] . '"></span>';
+                        $html .= $row['name'] . " : SSL Cert";
+                        array_push($items, $html);
+                    } else {
+                        if (!$errorOnly) {
+                            $html = '<span class="green-dot" title="Good"></span>';
+                            $html .= $row['name'] . " : SSL Cert";
+                            array_push($items, $html);
+                        }
                     }
                 }
 

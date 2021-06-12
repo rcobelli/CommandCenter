@@ -2,7 +2,7 @@
 
 include_once("init.php");
 
-$sql = "SELECT * FROM systems";
+$sql = "SELECT * FROM systems WHERE expDate IS NOT NULL";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {

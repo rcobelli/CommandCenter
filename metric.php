@@ -58,6 +58,15 @@ if ($_POST['action'] == MODE_NEW) {
                     if ($conn->query($sql) === false) {
                         exit($conn->error);
                     }
+
+                    // Check if Apache is a service
+                    if ($service['name'] == "apache") {
+                        // Mark that the SSL cert needs to be checked
+                        $sql = "UPDATE `systems` SET expDate = '0000-00-00 00:00:00' WHERE id = " . $id;
+                        if ($conn->query($sql) === false) {
+                            exit($conn->error);
+                        }
+                    }
                 }
 
                 if ($canaryURL != null) {
