@@ -7,8 +7,8 @@
         }
     ],
     "require": {
-        "google/apiclient": "^2.0",
-        "aws/aws-sdk-php": "^3.82",
+        "google/apiclient": "*",
+        "aws/aws-sdk-php": "*",
         "ext-json": "*",
         "ext-mysqli": "*",
         "ext-curl": "*",
