@@ -10,6 +10,7 @@ if ($result->num_rows > 0) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $row['canaryURL']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         $output = curl_exec($ch);
         $info = curl_getinfo($ch);
