@@ -108,14 +108,14 @@ $id = steralizeString($_GET['user']);
                         $html = '<span class="red-dot" title="Expired"></span>';
                         $html .= $row['name'] . " : SSL Cert";
                         array_push($items, $html);
-                    } else if (strtotime($row['expDate']) <= strtotime('+5 days')) {
+                    } else if (strtotime($row['expDate']) <= strtotime('+7 days')) {
                         $output = true;
                         $html = '<span class="yellow-dot" title="Expiring Soon - ' . $row['expDate'] . '"></span>';
                         $html .= $row['name'] . " : SSL Cert";
                         array_push($items, $html);
                     } else {
                         if (!$errorOnly) {
-                            $html = '<span class="green-dot" title="Good"></span>';
+                            $html = '<span class="green-dot" title="Expires ' . $row['expDate'] . '"></span>';
                             $html .= $row['name'] . " : SSL Cert";
                             array_push($items, $html);
                         }
