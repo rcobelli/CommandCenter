@@ -12,3 +12,8 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI}
   Order Allow,Deny
   Deny from all
 </Files>
+
+<Files "*.ini">  
+  Order Allow,Deny
+  Deny from all
+</Files>
