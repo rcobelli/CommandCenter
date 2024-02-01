@@ -121,7 +121,7 @@ ob_start();
         if (!empty($timestamps)) {
             echo '<table>';
             foreach ($timestamps as $timestamp) {
-                echo '<tr><td>' . $timestamp['timestamp'] . '</td></tr>';
+                echo '<tr><td>' . $timestamp . '</td></tr>';
             }
             echo '</table>';
         } else {

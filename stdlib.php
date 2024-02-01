@@ -1,12 +1,7 @@
 <?php
 
 function getUrl() {
-    $output = "https://$_SERVER[HTTP_HOST]";
-    if ($_SERVER['SERVER_PORT'] != 443) {
-        return $output . ":$_SERVER[SERVER_PORT]/";
-    } else {
-        return $output . "/";
-    }
+    return "https://$_SERVER[HTTP_HOST]/";
 }
 
 enum Mode
