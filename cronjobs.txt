@@ -1,4 +1,4 @@
-0 * * * * cd /var/www/__YOUR_LOCATION__/cron && php metricCheck.php
-0 * * * * cd /var/www/__YOUR_LOCATION__/cron && php canaryCheck.php
-0 1 * * * cd /var/www/__YOUR_LOCATION__/cron && php garbageCollection.php
-@daily cd /var/www/__YOUR_LOCATION__/cron && php daily.php
+0 * * * * curl __YOUR_LOCATION__/api/metricCheck.php
+0 * * * * curl __YOUR_LOCATION__/api/canaryCheck.php
+0 1 * * * curl __YOUR_LOCATION__/api/garbageCollection.php
+@daily curl __YOUR_LOCATION__/api/daily.php

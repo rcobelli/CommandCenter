@@ -7,12 +7,12 @@
         }
     ],
     "require": {
-        "google/apiclient": "*",
-        "aws/aws-sdk-php": "*",
-        "ext-json": "*",
-        "ext-mysqli": "*",
-        "ext-curl": "*",
-        "ext-simplexml": "*",
-      "ext-openssl": "*"
-    }
+        "rybel-llc/backbone": "1.*"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/Rybel-LLC/Backbone"
+        }
+    ]
 }

@@ -2,3 +2,4 @@
 config.ini
 client_secret.json
 .idea
+/certs/

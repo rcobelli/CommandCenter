@@ -1,10 +1,6 @@
 <?php
 
-// Get sensitive values
-$ini = parse_ini_file("config.ini", true)["cc"];
-
-require_once("vendor/autoload.php");
-
+// Support DEBUG cookie
 if ($_COOKIE['debug'] == 'true') {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -13,38 +9,49 @@ if ($_COOKIE['debug'] == 'true') {
     error_reporting(0);
 }
 
-$conn = mysqli_connect($ini['db_ip'], $ini['db_user'], $ini['db_password'], "CommandCenter");
-if (mysqli_connect_errno()) {
-    echo "Failed to connect to MySQL: " . mysqli_connect_error();
-    die();
-}
+require_once("vendor/autoload.php");
+require_once("stdlib.php");
+
+spl_autoload_register(function ($class_name) {
+    if ($class_name != 'EC2RoleForAWSCodeDeploy') {
+        /** @noinspection PhpIncludeInspection */
+        include 'classes/' . $class_name . '.php';
+    }
+});
+
+
+// Get sensitive values
+$ini = parse_ini_file("config.ini", true)["cc"];
 
 date_default_timezone_set("America/New_York");
 
-// Start session if not already created
-if (session_status() == PHP_SESSION_NONE) {
-    session_name("cc");
-    session_start();
+try {
+    $pdo = new PDO(
+        'mysql:host=' . $ini['db_host'] . ';dbname=' . $ini['db_name'] . ';charset=utf8mb4',
+        $ini['db_username'],
+        $ini['db_password'],
+        array(
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING,
+            PDO::ATTR_PERSISTENT => false
+        )
+    );
+} catch (Exception $e) {
+    exit($e);
 }
 
-define('MODE_NEW', 'new');
-define('MODE_EDIT', 'edit');
-define('DELETE', 'delete');
+$config = array(
+    'dbo' => $pdo,
+    'appName' => 'Command Center'
+);
 
-// Steralize input (remove crazy characters)
-function steralizeString($str)
-{
-    global $conn;
-    return mysqli_real_escape_string($conn, $str);
-}
+// Setup SAML
+$baseUrl = "https://dev.rybel-llc.com:555/";
+$keycloakUrl = "https://dev.rybel-llc.com:8443/realms/Rybel";
 
-function devEnv()
-{
-    return gethostname() == "Ryans-MBP";
-}
+$samlHelper = new Rybel\backbone\SamlAuthHelper($baseUrl, 
+                            $keycloakUrl, 
+                            file_get_contents("../certs/idp.cert"), 
+                            file_get_contents('../certs/public.crt'), 
+                            file_get_contents('../certs/private.pem'),
+                            $_COOKIE['debug'] == 'true');
 
-function getURL() {
-    global $ini;
-
-    return $ini['link'];
-}
