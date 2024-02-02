@@ -151,7 +151,7 @@ ob_start();
         </div>
     </div>
     <div class="alert alert-info" role="alert">
-        Your display dashboard URL is <a href="<?php echo getUrl(); ?>display?api_token=13fbd79c3d390e5d6585a21e11ff5ec1970cff0c&errorOnly=false" target="_blank"><?php echo getURL(); ?>display?api_token=13fbd79c3d390e5d6585a21e11ff5ec1970cff0c&errorOnly=false</a>
+        Your display dashboard URL is <a href="<?php echo getUrl(); ?>display.php?api_token=13fbd79c3d390e5d6585a21e11ff5ec1970cff0c&errorOnly=false" target="_blank"><?php echo getURL(); ?>display.php?api_token=13fbd79c3d390e5d6585a21e11ff5ec1970cff0c&errorOnly=false</a>
     </div>
 
 </div>
