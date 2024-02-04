@@ -22,6 +22,3 @@ foreach ($system as $row) {
 
     $helper->updateSslExpirationDate($id, date("Y-m-d H:i:s", $epoch));
 }
-
-
-

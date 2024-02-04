@@ -9,7 +9,7 @@ if (!$samlHelper->isLoggedIn()) {
 
 $config['type'] = Rybel\backbone\LogStream::console;
 
-$helper = new SystemHelper($config);
+$systemHelper = new SystemHelper($config);
 
 // Boilerplate
 $page = new Rybel\backbone\page();
@@ -53,7 +53,7 @@ if ($_POST['action'] == "new") {
     }
 } elseif ($_GET['action'] == "delete") {
     if ($systemHelper->deleteSystem($_GET['id']) === false) {
-        $page->addError($cronHelper->getErrorMessage());
+        $page->addError($systemHelper->getErrorMessage());
     } else {
         header("Location: index.php?action=success&type=delete");
         die();
@@ -64,7 +64,7 @@ if (empty($_GET['id'])) {
     $mode = "new";
 } else {
     $mode = "edit";
-    $row = $helper->getSystem($_GET['id']);
+    $row = $systemHelper->getSystem($_GET['id']);
     if ($row === false) {
         header("Location: index.php?action=error&type=system&reason=invalid_id");
         die();

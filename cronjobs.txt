@@ -1,4 +1,4 @@
-0 * * * * curl __YOUR_LOCATION__/api/metricCheck.php
-0 * * * * curl __YOUR_LOCATION__/api/canaryCheck.php
-0 1 * * * curl __YOUR_LOCATION__/api/garbageCollection.php
-@daily curl __YOUR_LOCATION__/api/daily.php
+0 * * * * php /var/www/commandcenter/public/api/metricCheck.php
+0 * * * * php /var/www/commandcenter/public/api/canaryCheck.php
+0 1 * * * php /var/www/commandcenter/public/api/api/garbageCollection.php
+0 1 * * * php /var/www/commandcenter/public/api/api/sslCheck.php
