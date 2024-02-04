@@ -4,8 +4,7 @@ include_once("../../init.php");
 
 $config['type'] = Rybel\backbone\LogStream::cron;
 
-$helper = new SystemHelper($config);
-
+$systemHelper = new SystemHelper($config);
 
 $systems = $systemHelper->getAllSystems();
 foreach ($systems as $row) {

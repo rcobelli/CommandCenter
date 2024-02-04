@@ -132,7 +132,7 @@ ob_start();
         if ($mode == "edit") {
             echo '<a href="?action=delete&id=' . $_GET['id'] . '"><button type="submit" class="btn btn-danger">Delete</button></a>';
             echo '<hr/><h3>Metrics</h3>';
-            $metrics = $helper->getMetricsForSystem($_GET['id']);
+            $metrics = $systemHelper->getMetricsForSystem($_GET['id']);
             if (!empty($metrics)) {
                 echo '<ul>';
                 foreach ($metrics as $row) {
