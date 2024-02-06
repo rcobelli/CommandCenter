@@ -36,12 +36,12 @@ class CronHelper extends Helper
 
     public function getMostRecentTimestamp($cron_id) 
     {
-        return $this->query("SELECT timestamp FROM `cron-log` WHERE cronID = ? ORDER BY timestamp DESC LIMIT 1", $cron_id);
+        return $this->query("SELECT * FROM `cron-log` WHERE cronID = ? ORDER BY timestamp DESC LIMIT 1", $cron_id);
     }
 
     public function getMostRecentTimestamps($cron_id) 
     {
-        return $this->query("SELECT timestamp FROM `cron-log` WHERE cronID = ? ORDER BY timestamp DESC LIMIT 10", $cron_id);
+        return $this->query("SELECT * FROM `cron-log` WHERE cronID = ? ORDER BY timestamp DESC LIMIT 10", $cron_id);
     }
 
     public function garbageCollect() {

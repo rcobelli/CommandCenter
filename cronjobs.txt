@@ -1,4 +1,4 @@
-0 * * * * php /var/www/commandcenter/public/api/metricCheck.php
-0 * * * * php /var/www/commandcenter/public/api/canaryCheck.php
-0 1 * * * php /var/www/commandcenter/public/api/api/garbageCollection.php
-0 1 * * * php /var/www/commandcenter/public/api/api/sslCheck.php
+0 * * * * cd /var/www/commandcenter/public/api/ && php metricCheck.php
+0 * * * * cd /var/www/commandcenter/public/api/ && canaryCheck.php
+0 1 * * * cd /var/www/commandcenter/public/api/ && garbageCollection.php
+0 1 * * * cd /var/www/commandcenter/public/api/ && sslCheck.php
