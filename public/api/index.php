@@ -1,6 +1,6 @@
 <?php
 
-include_once("../init.php");
+include_once("../../init.php");
 
 if (empty($_GET['id'])) {
     http_response_code(400);

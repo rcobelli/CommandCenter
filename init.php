@@ -47,8 +47,8 @@ $config = array(
 // Setup SAML
 $samlHelper = new Rybel\backbone\SamlAuthHelper($ini['saml_sp'], 
                             $ini['saml_idp'], 
-                            file_get_contents("../certs/idp.cert"), 
-                            file_get_contents('../certs/public.crt'), 
-                            file_get_contents('../certs/private.pem'),
+                            file_get_contents(dirname(__FILE__) . "/certs/idp.cert"), 
+                            file_get_contents(dirname(__FILE__) . '/certs/public.crt'), 
+                            file_get_contents(dirname(__FILE__) . '/certs/private.pem'),
                             $_COOKIE['debug'] == 'true');
 

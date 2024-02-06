@@ -7,7 +7,7 @@ $config['type'] = Rybel\backbone\LogStream::cron;
 $helper = new SystemHelper($config);
 
 $systems = $helper->getAllSystems();
-foreach ($system as $row) {
+foreach ($systems as $row) {
     if (is_null($row['canaryURL'])) {
         continue;
     }
