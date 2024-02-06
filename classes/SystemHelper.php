@@ -20,9 +20,9 @@ class SystemHelper extends Helper
     }
 
 
-    public function getMostRecentTimestamp($metric_id) 
+    public function getMostRecentTimestamp($system_id, $metric_id) 
     {
-        return $this->query("SELECT * FROM `metric-log` WHERE metricID = ? ORDER BY timestamp DESC LIMIT 1", $metric_id);
+        return $this->query("SELECT * FROM `metric-log` WHERE metricID = ? AND systemID = ? ORDER BY timestamp DESC LIMIT 1", $metric_id, $system_id);
     }
 
     public function createSystem($name, $url, $username, $password, $canaryURL)

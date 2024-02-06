@@ -113,7 +113,7 @@ $page->addFooter("../includes/footer.php");
         $metrics = $systemHelper->getMetricsForSystem($row['id']);
         foreach ($metrics as $row2) {
             $html = "";
-            $row3 = $systemHelper->getMostRecentTimestamp($row2['name']);
+            $row3 = $systemHelper->getMostRecentTimestamp($row['id'], $row2['name']);
             if (!empty($row3)) {
                 if (strtotime($row3['timestamp']) <= strtotime('-6 hours')) {
                     $output = true;
