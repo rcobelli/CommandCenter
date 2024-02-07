@@ -20,5 +20,5 @@ foreach ($systems as $row) {
 
     $epoch = $certinfo['validTo_time_t'];
 
-    $helper->updateSslExpirationDate($id, date("Y-m-d H:i:s", $epoch));
+    $helper->updateSslExpirationDate($row['id'], date("Y-m-d H:i:s", $epoch));
 }
